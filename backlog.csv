@@ -1,0 +1,22 @@
+Title,Type,Domaine,Priorité,Estimation
+"Initialisation du projet",Chore,Infra,Must have,3
+"Documentation Swagger de base",Chore,Infra,Must have,2
+"Inscription utilisateur",Feature,Auth & Users,Must have,3
+"Connexion utilisateur",Feature,Auth & Users,Must have,2
+"Profil de l'utilisateur connecté",Feature,Auth & Users,Should have,1
+"Modification d'un utilisateur (droits inclus)",Feature,Auth & Users,Must have,3
+"Lister les listes",Feature,Listes,Must have,1
+"Créer une liste",Feature,Listes,Must have,2
+"Modifier une liste",Feature,Listes,Should have,2
+"Supprimer une liste",Feature,Listes,Must have,2
+"Lister les cartes d'une liste",Feature,Cartes,Must have,1
+"Créer une carte",Feature,Cartes,Must have,2
+"Récupérer une carte",Feature,Cartes,Should have,1
+"Modifier une carte",Feature,Cartes,Must have,3
+"Supprimer une carte",Feature,Cartes,Must have,1
+"Rapport de veille technologique",Documentation,Documentation,Must have,3
+"README détaillé du projet",Documentation,Documentation,Must have,1
+"Mise en place des tests (fixtures)",Chore,Documentation,Must have,2
+"Tests d'API automatisés avancés",Feature,Bonus,Could have,3
+"API GraphQL en complément du REST",Feature,Bonus,Could have,5
+"Étude de performance / optimisation",Documentation,Bonus,Could have,2

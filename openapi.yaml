@@ -1,0 +1,476 @@
+openapi: 3.0.3
+info:
+  title: Kanban Board API
+  description: >
+    Contrat de référence pour l'exercice de veille technologique backend (NestJS / Symfony / Spring Boot).
+    Ce contrat est identique quel que soit le framework choisi : c'est ce qui permet de comparer les
+    implémentations à la fin de l'exercice. Importez ce fichier dans Swagger Editor, Postman ou Insomnia
+    pour explorer et tester les routes directement.
+  version: "1.0.0"
+  contact:
+    name: La Plateforme — Master 1 Développement
+servers:
+  - url: http://localhost:3000/api
+    description: Serveur local de développement
+
+tags:
+  - name: Auth
+    description: Inscription et connexion
+  - name: Users
+    description: Gestion des utilisateurs
+  - name: Lists
+    description: Gestion des listes du Kanban
+  - name: Cards
+    description: Gestion des cartes du Kanban
+
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Inscrire un nouvel utilisateur
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Utilisateur créé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: Email déjà utilisé
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Connecter un utilisateur
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        "401":
+          description: Identifiants invalides
+
+  /users/me:
+    get:
+      tags: [Users]
+      summary: Récupérer le profil de l'utilisateur connecté
+      responses:
+        "200":
+          description: Profil utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /users/{id}:
+    patch:
+      tags: [Users]
+      summary: Modifier les informations d'un utilisateur (y compris ses droits)
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserInput"
+      responses:
+        "200":
+          description: Utilisateur mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /lists:
+    get:
+      tags: [Lists]
+      summary: Lister toutes les listes
+      responses:
+        "200":
+          description: Tableau de listes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/List"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    post:
+      tags: [Lists]
+      summary: Créer une nouvelle liste
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateListInput"
+      responses:
+        "201":
+          description: Liste créée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/List"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /lists/{id}:
+    patch:
+      tags: [Lists]
+      summary: Modifier une liste (titre, position)
+      description: Réservé à l'auteur de la liste.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateListInput"
+      responses:
+        "200":
+          description: Liste mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/List"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags: [Lists]
+      summary: Supprimer une liste
+      description: Réservé à l'auteur de la liste.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "204":
+          description: Liste supprimée
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /lists/{listId}/cards:
+    get:
+      tags: [Cards]
+      summary: Lister les cartes d'une liste
+      description: Réservé à l'auteur de la liste.
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tableau de cartes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Card"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      tags: [Cards]
+      summary: Créer une nouvelle carte dans une liste
+      description: Réservé à l'auteur de la liste.
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCardInput"
+      responses:
+        "201":
+          description: Carte créée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Card"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /cards/{id}:
+    get:
+      tags: [Cards]
+      summary: Récupérer une carte
+      description: Réservé à l'auteur de la liste parente.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Carte
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Card"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      tags: [Cards]
+      summary: Modifier une carte (titre, description, position, liste)
+      description: >
+        Réservé à l'auteur de la liste parente. En cas de déplacement (changement de `listId`),
+        l'utilisateur doit aussi être l'auteur de la liste cible, sinon 403.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCardInput"
+      responses:
+        "200":
+          description: Carte mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Card"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags: [Cards]
+      summary: Supprimer une carte
+      description: Réservé à l'auteur de la liste parente.
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "204":
+          description: Carte supprimée
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Authentification manquante ou invalide
+    Forbidden:
+      description: >
+        Authentifié, mais accès refusé — soit parce que la ressource (liste/carte) appartient à un
+        autre utilisateur, soit parce que l'action requiert un rôle (ex. admin) que l'utilisateur n'a pas.
+    NotFound:
+      description: Ressource introuvable
+    BadRequest:
+      description: Requête invalide
+
+  schemas:
+    RegisterInput:
+      type: object
+      required: [email, password, name]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        name:
+          type: string
+
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    UpdateUserInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [user, admin]
+
+    AuthToken:
+      type: object
+      description: Jeton retourné après une connexion réussie.
+      properties:
+        accessToken:
+          type: string
+          description: >
+            JSON Web Token (JWT). Contient au minimum l'identifiant de l'utilisateur (claim `sub`)
+            et une date d'expiration (claim `exp`). Ne contient jamais le mot de passe.
+
+    User:
+      type: object
+      description: >
+        Représentation publique d'un utilisateur. Le champ `password` n'existe volontairement pas
+        dans ce schéma : il ne doit jamais être sérialisé dans une réponse API, quelle que soit la route.
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [user, admin]
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateListInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+        position:
+          type: integer
+
+    UpdateListInput:
+      type: object
+      properties:
+        title:
+          type: string
+        position:
+          type: integer
+
+    List:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        position:
+          type: integer
+        ownerId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateCardInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+
+    UpdateCardInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+        listId:
+          type: string
+
+    Card:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+        listId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+security:
+  - bearerAuth: []
