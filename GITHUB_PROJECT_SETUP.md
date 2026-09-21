@@ -12,7 +12,7 @@ Ce document décrit comment configurer le board pour qu'il porte lui-même les b
 Dans le Project, **onglet ⚙️ (Settings) → Fields → New field**, crée :
 
 | Champ | Type | Valeurs |
-|---|---|---|
+| --- | --- | --- |
 | **Type** | Single select | `Feature`, `Bug`, `Chore`, `Documentation` |
 | **Domaine** | Single select | `Infra`, `Auth & Users`, `Listes`, `Cartes`, `Documentation`, `Bonus` |
 | **Priorité** | Single select | `Must have`, `Should have`, `Could have` |
@@ -41,6 +41,7 @@ Deux méthodes, au choix :
 ## 5. Automatisations utiles (optionnel)
 
 Dans **Settings → Workflows** du Project :
+
 - "Item added to project" → Status = `Backlog`
 - "Item closed" → Status = `Terminé`
 - "Pull request merged" → Status = `Terminé`
@@ -48,6 +49,7 @@ Dans **Settings → Workflows** du Project :
 ## Résultat attendu
 
 Un board avec :
+
 - des colonnes représentant le cycle de vie du ticket (`Backlog → À faire → En cours → En revue → Terminé`) ;
 - des lanes horizontales par **Domaine** (ou Type), pour distinguer d'un coup d'œil une fonctionnalité d'un chore ou d'une tâche de documentation ;
 - chaque ticket portant Type, Domaine, Priorité et Estimation ;
