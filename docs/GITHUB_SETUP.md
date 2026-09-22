@@ -29,7 +29,7 @@ Si tu veux que les élèves puissent aussi dupliquer le Project lui-même (pas s
 
 Le fichier `openapi.yaml` est testable immédiatement, avant même d'avoir écrit une ligne de backend :
 
-- **Swagger Editor** : https://editor.swagger.io → coller/importer `openapi.yaml`
+- **Swagger Editor** : <https://editor.swagger.io> → coller/importer `openapi.yaml`
 - **Postman** : Import → File → `openapi.yaml` (génère automatiquement une collection de requêtes)
 - **Insomnia** : Import → From File → `openapi.yaml`
 
