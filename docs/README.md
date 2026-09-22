@@ -25,3 +25,7 @@ Le choix de la techno (NestJS, Symfony ou Spring Boot) est libre, mais **le cont
 5. Implémentez l'API dans le framework de votre choix, en respectant les routes du contrat et en cochant la DoD ticket par ticket.
 6. Exposez votre propre documentation Swagger sur `/api`.
 7. Rédigez votre rapport de veille (`rapport-veille-back.pdf`) et un README détaillé de votre projet final.
+
+## Prerequisites
+
+Please make sure that [Node.js](https://nodejs.org/fr) is installed on your operating system. Running a Nest application requires `v20.19` or `later` (or v22.12+ on the 22.x line); the Nest CLI's generators require `v22.22.3+, v24.15+, or v26+`. The latest active LTS satisfies both and is what we recommend.
