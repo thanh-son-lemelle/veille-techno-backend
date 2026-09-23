@@ -26,6 +26,7 @@ export function setupSwagger(app: INestApplication): void {
 
   // Collect all implemented operations
   for (const [path, pathItem] of Object.entries(implementedDocument.paths)) {
+    // Iterate over each HTTP method for the current path
     for (const method of methods) {
       if (pathItem[method]) {
         implementedOperations.add(operationKey(method, path));
