@@ -31,6 +31,35 @@
 $ npm install
 ```
 
+## Configuration de la base de données
+
+Le backend utilise PostgreSQL avec TypeORM. Copier `.env.example` vers `.env`
+et renseigner les accès à votre serveur PostgreSQL :
+
+```powershell
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+```
+
+Si `.env` existe déjà, le conserver et vérifier les variables `DB_HOST`, `DB_PORT`,
+`DB_USERNAME`, `DB_PASSWORD` et `DB_DATABASE`. Le fichier `.env` est ignoré par Git.
+
+PostgreSQL doit être démarré et la base indiquée par `DB_DATABASE` doit exister.
+Pour créer la base locale de l'exemple, avec un utilisateur autorisé :
+
+```bash
+createdb -h 127.0.0.1 -p 5432 -U postgres veille_techno
+```
+
+Au démarrage, `AppModule` valide les variables d'environnement avec Zod puis
+établit la connexion TypeORM. Les entités enregistrées avec
+`TypeOrmModule.forFeature(...)` sont chargées automatiquement. La synchronisation
+du schéma est désactivée (`synchronize: false`) : le démarrage ne crée ni ne modifie
+les tables.
+
+Pour vérifier la connexion réelle, lancer `npm run test:e2e -- --runInBand`.
+Cette suite utilise la base configurée dans `.env` et exécute une requête
+`SELECT 1` sans modifier les données.
+
 ## Compile and run the project
 
 ```bash
@@ -43,6 +72,17 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Documentation de l’API
+
+Après démarrage, Swagger est accessible sur [http://localhost:3000/api](http://localhost:3000/api)
+(adapter le port à la variable `PORT`). Le document JSON est disponible sur `/api-json`.
+Le contrat de référence est [docs/openapi.yaml](docs/openapi.yaml).
+
+Au démarrage, les opérations du contrat sont comparées aux routes des contrôleurs
+enregistrés dans Nest, via Swagger. La comparaison tient compte de la méthode HTTP,
+du préfixe `/api` et des paramètres de chemin. Les opérations absentes portent la
+mention **Non implémentée**.
 
 ## Run tests
 

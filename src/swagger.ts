@@ -10,12 +10,13 @@ function operationKey(method: string, path: string): string {
 }
 
 export function setupSwagger(app: INestApplication): void {
+  // Load the OpenAPI contract
   const contractPath = join(__dirname, '..', 'docs', 'openapi.yaml');
   const document = parse(readFileSync(contractPath, 'utf8')) as OpenAPIObject;
 
   const apiPrefix = '/api';
   document.servers = [{ url: apiPrefix }];
-
+  // Create a document for the implemented endpoints
   const methods = ['get', 'post', 'patch', 'delete'] as const;
   const implementedDocument = SwaggerModule.createDocument(app, {
     openapi: document.openapi,
@@ -23,15 +24,16 @@ export function setupSwagger(app: INestApplication): void {
   });
   const implementedOperations = new Set<string>();
 
-
+  // Collect all implemented operations
   for (const [path, pathItem] of Object.entries(implementedDocument.paths)) {
+    // Iterate over each HTTP method for the current path
     for (const method of methods) {
       if (pathItem[method]) {
         implementedOperations.add(operationKey(method, path));
       }
     }
   }
-
+  // Mark non-implemented operations in the OpenAPI document
   for (const [path, pathItem] of Object.entries(document.paths)) {
     for (const method of methods) {
       const operation = pathItem[method];
