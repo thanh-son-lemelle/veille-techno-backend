@@ -11,6 +11,7 @@ export const environmentSchema = z.object({
   DB_USERNAME: z.string().min(1),
   DB_PASSWORD: z.string().min(1),
   DB_DATABASE: z.string().min(1),
+  JWT_SECRET: z.string().min(32),
 });
 
 export function createDatabaseOptions(

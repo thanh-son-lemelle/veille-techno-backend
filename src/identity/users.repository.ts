@@ -10,6 +10,16 @@ export class UsersRepository {
     private readonly repository: Repository<User>,
   ) {}
 
+  findIdentityById(id: string): Promise<Pick<User, 'id' | 'role'> | null> {
+  return this.repository.findOne({
+    where: { id },
+    select: {
+      id: true,
+      role: true,
+    },
+  });
+}
+
   findForLogin(email: string) {
     return this.repository.findOne({
       where: { email },
