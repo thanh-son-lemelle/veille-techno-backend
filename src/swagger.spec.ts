@@ -1,15 +1,15 @@
+import type { INestApplication } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
+import type { OpenAPIObject } from '@nestjs/swagger';
+import { Test } from '@nestjs/testing';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { Controller, Get, Post } from '@nestjs/common';
-import type { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
-import type { OpenAPIObject } from '@nestjs/swagger';
 import request from 'supertest';
 import type { App } from 'supertest/types';
 import { parse } from 'yaml';
+import { AuthController } from './identity/controllers/auth.controller';
+import { AuthService } from './identity/services/auth.service';
 import { setupSwagger } from './swagger';
-import { AuthController } from './identity/auth.controller';
-import { AuthService } from './identity/auth.service';
 // Test controller for Swagger route detection
 @Controller()
 class TestController {

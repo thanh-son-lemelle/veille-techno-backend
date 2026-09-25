@@ -1,23 +1,23 @@
 import {
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Post,
-  StandardSchemaValidationPipe,
-  UsePipes,
+    Body,
+    Controller,
+    HttpCode,
+    HttpStatus,
+    Post,
+    StandardSchemaValidationPipe,
+    UsePipes,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { registerSchema, type RegisterInputDto } from './registerDto.schema';
-import { loginSchema, type LoginInputDto } from './loginDto.schema';
 import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiBadRequestResponse,
-  ApiConflictResponse,
-  ApiOkResponse,
-  ApiUnauthorizedResponse,
+    ApiBadRequestResponse,
+    ApiBody,
+    ApiConflictResponse,
+    ApiCreatedResponse,
+    ApiOkResponse,
+    ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { loginSchema, type LoginInputDto } from '../dtos/loginDto.schema';
+import { registerSchema, type RegisterInputDto } from '../dtos/registerDto.schema';
+import { AuthService } from '../services/auth.service';
 
 @Controller('api/auth')
 export class AuthController {

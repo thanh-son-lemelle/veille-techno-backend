@@ -1,9 +1,9 @@
-import { Test } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
+import { Test } from '@nestjs/testing';
 import * as argon2 from 'argon2';
+import { UserRole } from '../user.entity';
+import { UsersRepository } from '../users.repository';
 import { AuthService } from './auth.service';
-import { UserRole } from './user.entity';
-import { UsersRepository } from './users.repository';
 
 describe('AuthService', () => {
   let service: AuthService;

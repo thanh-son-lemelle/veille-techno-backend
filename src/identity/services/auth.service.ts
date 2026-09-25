@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import type { LoginInputDto } from './loginDto.schema';
-import type { RegisterInputDto } from './registerDto.schema';
-import { UserRole } from './user.entity';
-import { UsersRepository } from './users.repository';
+import type { LoginInputDto } from '../dtos/loginDto.schema';
+import type { RegisterInputDto } from '../dtos/registerDto.schema';
+import { UserRole } from '../user.entity';
+import { UsersRepository } from '../users.repository';
 
 @Injectable()
 export class AuthService {

@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule, type JwtModuleOptions } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
 import { User } from './user.entity';
 import { UsersRepository } from './users.repository';
+import { UsersController } from './controllers/users.controller';
+import { UsersService } from './services/users.service';
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { UsersRepository } from './users.repository';
       }),
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, UsersRepository, AuthGuard],
+  controllers: [AuthController, UsersController],
+  providers: [AuthService, UsersRepository, AuthGuard, UsersService],
 })
 export class IdentityModule {}
