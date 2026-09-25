@@ -8,6 +8,8 @@ import request from 'supertest';
 import type { App } from 'supertest/types';
 import { parse } from 'yaml';
 import { setupSwagger } from './swagger';
+import { AuthController } from './identity/auth.controller';
+import { AuthService } from './identity/auth.service';
 // Test controller for Swagger route detection
 @Controller()
 class TestController {
@@ -112,5 +114,73 @@ describe('Swagger route detection', () => {
       .get('/api')
       .expect(200)
       .expect(/Swagger UI/);
+  });
+  it('expose le schéma Zod et les exemples des réponses d’inscription', async () => {
+  const moduleRef = await Test.createTestingModule({
+    controllers: [AuthController],
+    providers: [
+      {
+        provide: AuthService,
+        useValue: { register: jest.fn() },
+      },
+    ],
+  }).compile();
+
+  const swaggerApp = moduleRef.createNestApplication<INestApplication<App>>();
+
+  try {
+    // Le vrai contrôleur contient déjà le préfixe api/auth.
+    setupSwagger(swaggerApp);
+    await swaggerApp.init();
+
+    const response = await request(swaggerApp.getHttpServer())
+      .get('/api-json')
+      .expect(200);
+
+    const document = response.body as OpenAPIObject;
+    const operation = document.paths['/auth/register'].post;
+
+    expect(operation).toMatchObject({
+      security: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              additionalProperties: false,
+              required: expect.arrayContaining(['email', 'password', 'name']),
+              properties: {
+                email: { format: 'email' },
+                password: { minLength: 8, maxLength: 24 },
+                name: { minLength: 1 },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    for (const status of ['201', '400', '409']) {
+      expect(operation?.responses[status]).toMatchObject({
+        content: {
+          'application/json': {
+            schema: expect.any(Object),
+            example: expect.any(Object),
+          },
+        },
+      });
+    }
+
+    expect(operation?.responses['400']).not.toHaveProperty('$ref');
+
+    expect(operation?.responses['201']).toMatchObject({
+      content: {
+        'application/json': {
+          schema: { $ref: '#/components/schemas/User' },
+        },
+      },
+    });
+  } finally {
+    await swaggerApp.close();
+  }
   });
 });

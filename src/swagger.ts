@@ -1,8 +1,8 @@
+import type { INestApplication } from '@nestjs/common';
+import type { OpenAPIObject, OperationObject } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { INestApplication } from '@nestjs/common';
-import { SwaggerModule } from '@nestjs/swagger';
-import type { OpenAPIObject } from '@nestjs/swagger';
 import { parse } from 'yaml';
 
 function operationKey(method: string, path: string): string {
@@ -22,30 +22,71 @@ export function setupSwagger(app: INestApplication): void {
     openapi: document.openapi,
     info: document.info,
   });
-  const implementedOperations = new Set<string>();
+  const implementedOperations = new Map<string, OperationObject>();
 
   // Collect all implemented operations
   for (const [path, pathItem] of Object.entries(implementedDocument.paths)) {
-    // Iterate over each HTTP method for the current path
-    for (const method of methods) {
-      if (pathItem[method]) {
-        implementedOperations.add(operationKey(method, path));
+      for (const method of methods) {
+        const operation = pathItem[method];
+
+        if (operation) {
+          implementedOperations.set(operationKey(method, path), operation);
+        }
       }
     }
-  }
   // Mark non-implemented operations in the OpenAPI document
   for (const [path, pathItem] of Object.entries(document.paths)) {
     for (const method of methods) {
       const operation = pathItem[method];
-      const key = operationKey(method, `${apiPrefix}${path}`);
 
-      if (!operation || implementedOperations.has(key)) {
+      if (!operation) {
         continue;
       }
 
-      operation.summary = `[Non implémentée] ${operation.summary ?? `${method.toUpperCase()} ${path}`}`;
+      const generated = implementedOperations.get(
+        operationKey(method, `${apiPrefix}${path}`),
+      );
+      // If the operation is not implemented, mark it as non-implemented
+      if (!generated) {
+        operation.summary =
+          `[Non implémentée] ${operation.summary ?? `${method.toUpperCase()} ${path}`}`;
+        continue;
+      }
+
+      if (generated.requestBody) {
+        operation.requestBody = generated.requestBody;
+      }
+      // Merge responses from the implemented operation
+      for (const [status, response] of Object.entries(generated.responses)) {
+        if (!response) {
+          continue;
+        }
+
+        const existing = operation.responses[status];
+        // If there is no existing response or if either the existing or new response is a $ref, replace it entirely
+        if (!existing || '$ref' in existing || '$ref' in response) {
+          operation.responses[status] = response;
+          continue;
+        }
+        // Otherwise, merge the existing and new response objects
+        operation.responses[status] = {
+          ...existing,
+          ...response,
+          description: response.description || existing.description,
+          content: {
+            ...existing.content,
+            ...response.content,
+          },
+        };
+      }
     }
   }
-
+  document.components = {
+    ...document.components,
+    schemas: {
+      ...document.components?.schemas,
+      ...implementedDocument.components?.schemas,
+    },
+  };
   SwaggerModule.setup('api', app, document);
 }
