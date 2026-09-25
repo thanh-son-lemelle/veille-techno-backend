@@ -10,6 +10,14 @@ export class UsersRepository {
     private readonly repository: Repository<User>,
   ) {}
 
+  findById(id: string) {
+  return this.repository.findOneBy({ id });
+}
+
+save(user: User) {
+  return this.repository.save(user);
+}
+
   findIdentityById(id: string): Promise<Pick<User, 'id' | 'role'> | null> {
   return this.repository.findOne({
     where: { id },
