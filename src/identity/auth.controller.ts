@@ -25,9 +25,67 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({ description: 'Connexion réussie' })
-  @ApiBadRequestResponse({ description: 'Données de connexion invalides' })
-  @ApiUnauthorizedResponse({ description: 'Identifiants invalides' })
+  @ApiBody({
+    description:
+      'Un email au format valide et un mot de passe non vide sont obligatoires. Aucun autre champ n’est accepté.',
+    examples: {
+      connexion: {
+        value: { email: 'alice@example.com', password: 'MotDePasse123!' },
+      },
+    },
+  })
+  @ApiOkResponse({
+    description:
+      'Connexion réussie. Le JWT est valable une heure et contient sub, iat et exp, sans mot de passe ni hash.',
+    content: {
+      'application/json': {
+        schema: { $ref: '#/components/schemas/AuthToken' },
+        example: { accessToken: '<JWT>' },
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'Données de connexion invalides : email mal formé ou mot de passe absent ou vide',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['statusCode', 'message', 'error'],
+          properties: {
+            statusCode: { type: 'integer' },
+            message: { type: 'array', items: { type: 'string' } },
+            error: { type: 'string' },
+          },
+        },
+        example: {
+          statusCode: 400,
+          message: ['email: Adresse email invalide'],
+          error: 'Bad Request',
+        },
+      },
+    },
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Email inconnu ou mot de passe incorrect, sans distinction',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['statusCode', 'message', 'error'],
+          properties: {
+            statusCode: { type: 'integer' },
+            message: { type: 'string' },
+            error: { type: 'string' },
+          },
+        },
+        example: {
+          statusCode: 401,
+          message: 'Identifiants invalides.',
+          error: 'Unauthorized',
+        },
+      },
+    },
+  })
   @UsePipes(StandardSchemaValidationPipe)
   login(@Body({ schema: loginSchema }) input: LoginInputDto) {
     return this.authService.login(input);
