@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'node:path';
 import type { DataSourceOptions } from 'typeorm';
 import { z } from 'zod';
-import { User } from '../users/user.entity';
+import { User } from '../identity/user.entity';
 
 export const environmentSchema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),

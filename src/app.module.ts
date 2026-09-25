@@ -2,15 +2,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TypeOrmExceptionFilter } from './common/filters/exception.filter';
 import {
   createDatabaseOptions,
   environmentSchema,
 } from './database/database.config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-
+import { IdentityModule } from './identity/identity.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,10 +27,15 @@ import { AuthModule } from './auth/auth.module';
         });
       },
     }),
-    UsersModule,
-    AuthModule,
+    IdentityModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: TypeOrmExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

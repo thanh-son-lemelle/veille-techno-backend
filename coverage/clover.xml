@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1790325611444" clover="3.2.0">
+  <project timestamp="1790325611444" name="All files">
+    <metrics statements="53" coveredstatements="53" conditionals="24" coveredconditionals="20" methods="8" coveredmethods="8" elements="85" coveredelements="81" complexity="0" loc="53" ncloc="53" packages="2" files="7" classes="7"/>
+    <package name="common.filters">
+      <metrics statements="9" coveredstatements="9" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
+      <file name="exception.filter.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\common\filters\exception.filter.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="14" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="identity">
+      <metrics statements="44" coveredstatements="44" conditionals="18" coveredconditionals="14" methods="7" coveredmethods="7"/>
+      <file name="auth.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\auth.controller.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="3" falsecount="1"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+      </file>
+      <file name="auth.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\auth.service.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="5" type="cond" truecount="3" falsecount="1"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+      </file>
+      <file name="identity.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\identity.module.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+      </file>
+      <file name="registerDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\registerDto.schema.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+      </file>
+      <file name="user.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\user.entity.ts">
+        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="8" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
+        <line num="32" count="5" type="cond" truecount="3" falsecount="1"/>
+      </file>
+      <file name="users.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\users.repository.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="10" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

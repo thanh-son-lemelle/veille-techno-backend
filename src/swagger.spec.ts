@@ -35,8 +35,6 @@ describe('Swagger route detection', () => {
       controllers: [TestController],
     }).compile();
     app = module.createNestApplication();
-    // Apply Swagger setup for each test
-    setupSwagger(app);
   });
   // Close the NestJS application after each test
   afterEach(async () => {
