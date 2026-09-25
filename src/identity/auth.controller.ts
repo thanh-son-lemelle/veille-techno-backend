@@ -1,22 +1,37 @@
 import {
   Body,
   Controller,
+  HttpCode,
+  HttpStatus,
   Post,
   StandardSchemaValidationPipe,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { registerSchema, type RegisterInputDto } from './registerDto.schema';
+import { loginSchema, type LoginInputDto } from './loginDto.schema';
 import {
   ApiBody,
   ApiCreatedResponse,
   ApiBadRequestResponse,
   ApiConflictResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @Controller('api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ description: 'Connexion réussie' })
+  @ApiBadRequestResponse({ description: 'Données de connexion invalides' })
+  @ApiUnauthorizedResponse({ description: 'Identifiants invalides' })
+  @UsePipes(StandardSchemaValidationPipe)
+  login(@Body({ schema: loginSchema }) input: LoginInputDto) {
+    return this.authService.login(input);
+  }
 
 @Post('register')
 @ApiBody({

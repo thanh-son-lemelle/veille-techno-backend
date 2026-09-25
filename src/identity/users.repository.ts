@@ -10,6 +10,13 @@ export class UsersRepository {
     private readonly repository: Repository<User>,
   ) {}
 
+  findForLogin(email: string) {
+    return this.repository.findOne({
+      where: { email },
+      select: { id: true, password: true },
+    });
+  }
+
   async createUser(input: {
     email: string;
     name: string;

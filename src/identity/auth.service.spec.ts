@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+import { JwtModule } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { AuthService } from './auth.service';
 import { UserRole } from './user.entity';
@@ -20,6 +21,9 @@ describe('AuthService', () => {
     };
 
     const moduleRef = await Test.createTestingModule({
+      imports: [
+        JwtModule.register({ secret: '05b17eb97d1480c62cae0bd503a1b5774b196101ee565bf1f789f9337829eba1' }),
+      ],
       providers: [
         AuthService,
         {

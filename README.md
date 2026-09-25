@@ -43,6 +43,15 @@ if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 Si `.env` existe déjà, le conserver et vérifier les variables `DB_HOST`, `DB_PORT`,
 `DB_USERNAME`, `DB_PASSWORD` et `DB_DATABASE`. Le fichier `.env` est ignoré par Git.
 
+Renseigner aussi `JWT_SECRET` dans `.env` avant de démarrer l'API. Cette valeur
+est obligatoire, doit contenir au moins 32 caractères et reste vide dans
+`.env.example`. Générer un secret aléatoire avec la commande suivante, puis copier
+le résultat dans `JWT_SECRET` :
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
 PostgreSQL doit être démarré et la base indiquée par `DB_DATABASE` doit exister.
 Pour créer la base locale de l'exemple, avec un utilisateur autorisé :
 
@@ -57,8 +66,9 @@ du schéma est désactivée (`synchronize: false`) : le démarrage ne crée ni n
 les tables.
 
 Pour vérifier la connexion réelle, lancer `npm run test:e2e -- --runInBand`.
-Cette suite utilise la base configurée dans `.env` et exécute une requête
-`SELECT 1` sans modifier les données.
+Cette suite utilise la base configurée dans `.env` : elle vérifie la connexion
+avec `SELECT 1`, puis teste l'inscription et la connexion avec des utilisateurs
+temporaires supprimés après chaque test. Utiliser une base dédiée aux tests.
 
 ## Compile and run the project
 
@@ -83,6 +93,25 @@ Au démarrage, les opérations du contrat sont comparées aux routes des contrô
 enregistrés dans Nest, via Swagger. La comparaison tient compte de la méthode HTTP,
 du préfixe `/api` et des paramètres de chemin. Les opérations absentes portent la
 mention **Non implémentée**.
+
+## Connexion utilisateur
+
+La route publique `POST /api/auth/login` accepte un objet JSON contenant uniquement
+`email` et `password`. L'email doit être valide et le mot de passe doit être une
+chaîne non vide.
+
+```json
+{ "email": "alice@example.com", "password": "MotDePasse123!" }
+```
+
+- **200** : retourne `{ "accessToken": "<JWT>" }`. Le JWT est signé en HS256 avec
+  `JWT_SECRET` et expire après une heure. Il contient `sub` (identifiant de
+  l'utilisateur), `iat` (date d'émission) et `exp` (date d'expiration), sans mot de
+  passe ni hash.
+- **401** : retourne le même message `Identifiants invalides.` pour un email
+  inconnu ou un mot de passe incorrect.
+- **400** : un corps invalide retourne `statusCode: 400`, un tableau `message`
+  précisant les erreurs de validation et `error: "Bad Request"`.
 
 ## Run tests
 
