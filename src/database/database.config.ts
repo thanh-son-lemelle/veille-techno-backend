@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import type { DataSourceOptions } from 'typeorm';
 import { z } from 'zod';
 import { User } from '../identity/user.entity';
+import { List } from '../kanban/list.entity';
 
 export const environmentSchema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
@@ -24,7 +25,7 @@ export function createDatabaseOptions(
     username: config.getOrThrow<string>('DB_USERNAME'),
     password: config.getOrThrow<string>('DB_PASSWORD'),
     database: config.getOrThrow<string>('DB_DATABASE'),
-    entities: [User],
+    entities: [User, List],
     migrations: [join(__dirname, 'migrations', '*{.ts,.js}')],
     synchronize: false,
     migrationsRun: false,
