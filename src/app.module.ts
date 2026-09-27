@@ -11,6 +11,7 @@ import {
   environmentSchema,
 } from './database/database.config';
 import { IdentityModule } from './identity/identity.module';
+import { KanbanModule } from './kanban/kanban.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +29,7 @@ import { IdentityModule } from './identity/identity.module';
       },
     }),
     IdentityModule,
+    KanbanModule,
   ],
   controllers: [AppController],
   providers: [
