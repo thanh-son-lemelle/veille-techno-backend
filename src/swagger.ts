@@ -53,6 +53,12 @@ export function setupSwagger(app: INestApplication): void {
         continue;
       }
 
+      if (generated.description) {
+        operation.description = generated.description;
+      }
+      if (generated.parameters?.length) {
+        operation.parameters = generated.parameters;
+      }
       if (generated.requestBody) {
         operation.requestBody = generated.requestBody;
       }
