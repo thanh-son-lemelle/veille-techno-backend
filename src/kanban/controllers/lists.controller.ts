@@ -9,7 +9,6 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -28,10 +27,11 @@ import {
   type ApiResponseNoStatusOptions,
   type SchemaObject,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../identity/auth.guard';
 import {
-  AuthGuard,
-  type AuthenticatedRequest,
-} from '../../identity/auth.guard';
+  CurrentUser,
+  type AuthenticatedUser,
+} from '../../identity/current-user.decorator';
 import {
   createListSchema,
   type CreateListInputDto,
@@ -171,8 +171,8 @@ export class ListsController {
       },
     },
   })
-  findAll(@Req() request: AuthenticatedRequest) {
-    return this.listsService.findAll(request.user.id);
+  findAll(@CurrentUser() user: AuthenticatedUser) {
+    return this.listsService.findAll(user.id);
   }
 
   @Post()
@@ -204,9 +204,9 @@ export class ListsController {
   })
   create(
     @Body({ schema: createListSchema }) input: CreateListInputDto,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.listsService.create(request.user.id, input);
+    return this.listsService.create(user.id, input);
   }
 
   @Patch(':id')
@@ -253,9 +253,9 @@ export class ListsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body({ schema: updateListSchema }) input: UpdateListInputDto,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.listsService.update(request.user.id, id, input);
+    return this.listsService.update(user.id, id, input);
   }
 
   @Delete(':id')
@@ -287,8 +287,8 @@ export class ListsController {
   @ApiNotFoundResponse(notFoundResponse)
   delete(
     @Param('id', ParseUUIDPipe) id: string,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.listsService.delete(request.user.id, id);
+    return this.listsService.delete(user.id, id);
   }
 }

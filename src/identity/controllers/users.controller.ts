@@ -4,7 +4,6 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,10 +20,11 @@ import {
   ApiUnauthorizedResponse,
   type SchemaObject,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../auth.guard';
 import {
-  AuthGuard,
-  type AuthenticatedRequest,
-} from '../auth.guard';
+  CurrentUser,
+  type AuthenticatedUser,
+} from '../current-user.decorator';
 import {
   updateUserSchema,
   type UpdateUserInputDto,
@@ -200,8 +200,8 @@ export class UsersController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body({ schema: updateUserSchema }) input: UpdateUserInputDto,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.usersService.update(request.user, id, input);
+    return this.usersService.update(user, id, input);
   }
 }

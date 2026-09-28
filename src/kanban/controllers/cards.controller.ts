@@ -9,7 +9,6 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -27,10 +26,11 @@ import {
   ApiUnauthorizedResponse,
   type SchemaObject,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../identity/auth.guard';
 import {
-  AuthGuard,
-  type AuthenticatedRequest,
-} from '../../identity/auth.guard';
+  CurrentUser,
+  type AuthenticatedUser,
+} from '../../identity/current-user.decorator';
 import {
   createCardSchema,
   type CreateCardInputDto,
@@ -198,9 +198,9 @@ export class CardsController {
   })
   findAll(
     @Param('listId', ParseUUIDPipe) listId: string,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.cardsService.findAll(request.user.id, listId);
+    return this.cardsService.findAll(user.id, listId);
   }
 
   @Post('lists/:listId/cards')
@@ -232,9 +232,9 @@ export class CardsController {
   create(
     @Param('listId', ParseUUIDPipe) listId: string,
     @Body({ schema: createCardSchema }) input: CreateCardInputDto,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.cardsService.create(request.user.id, listId, input);
+    return this.cardsService.create(user.id, listId, input);
   }
 
   @Get('cards/:id')
@@ -255,9 +255,9 @@ export class CardsController {
   })
   findOne(
     @Param('id', ParseUUIDPipe) id: string,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.cardsService.findOne(request.user.id, id);
+    return this.cardsService.findOne(user.id, id);
   }
 
   @Patch('cards/:id')
@@ -300,9 +300,9 @@ export class CardsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body({ schema: updateCardSchema }) input: UpdateCardInputDto,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.cardsService.update(request.user.id, id, input);
+    return this.cardsService.update(user.id, id, input);
   }
 
   @Delete('cards/:id')
@@ -322,8 +322,8 @@ export class CardsController {
   })
   delete(
     @Param('id', ParseUUIDPipe) id: string,
-    @Req() request: AuthenticatedRequest,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    return this.cardsService.delete(request.user.id, id);
+    return this.cardsService.delete(user.id, id);
   }
 }
