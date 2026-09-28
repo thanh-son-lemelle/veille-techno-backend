@@ -42,7 +42,7 @@ export class ListsService {
     await this.listsRepository.delete(id);
   }
 
-  private async findOwnedList(ownerId: string, id: string) {
+  async findOwnedList(ownerId: string, id: string) {
     const list = await this.listsRepository.findById(id);
 
     if (!list) {
