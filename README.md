@@ -94,25 +94,6 @@ enregistrés dans Nest, via Swagger. La comparaison tient compte de la méthode 
 du préfixe `/api` et des paramètres de chemin. Les opérations absentes portent la
 mention **Non implémentée**.
 
-## Connexion utilisateur
-
-La route publique `POST /api/auth/login` accepte un objet JSON contenant uniquement
-`email` et `password`. L'email doit être valide et le mot de passe doit être une
-chaîne non vide.
-
-```json
-{ "email": "alice@example.com", "password": "MotDePasse123!" }
-```
-
-- **200** : retourne `{ "accessToken": "<JWT>" }`. Le JWT est signé en HS256 avec
-  `JWT_SECRET` et expire après une heure. Il contient `sub` (identifiant de
-  l'utilisateur), `iat` (date d'émission) et `exp` (date d'expiration), sans mot de
-  passe ni hash.
-- **401** : retourne le même message `Identifiants invalides.` pour un email
-  inconnu ou un mot de passe incorrect.
-- **400** : un corps invalide retourne `statusCode: 400`, un tableau `message`
-  précisant les erreurs de validation et `error: "Bad Request"`.
-
 ## Run tests
 
 ```bash

@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { APP_FILTER } from '@nestjs/core';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmExceptionFilter } from './common/filters/exception.filter';
 import {
   createDatabaseOptions,
@@ -31,9 +28,8 @@ import { KanbanModule } from './kanban/kanban.module';
     IdentityModule,
     KanbanModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: TypeOrmExceptionFilter,

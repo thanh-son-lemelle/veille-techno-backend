@@ -266,7 +266,7 @@ export class ListsController {
   @ApiOperation({
     summary: 'Supprimer une liste',
     description:
-      'Réservé au propriétaire de la liste, sans exception pour les administrateurs. Retourne 204 sans corps après suppression, 404 si la liste est absente ou 403 si elle appartient à un autre utilisateur.',
+      'Réservé au propriétaire de la liste, sans exception pour les administrateurs. Supprime également toutes ses cartes en cascade. Retourne 204 sans corps après suppression, 404 si la liste est absente ou 403 si elle appartient à un autre utilisateur.',
   })
   @ApiParam({
     name: 'id',
