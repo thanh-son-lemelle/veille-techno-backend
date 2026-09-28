@@ -10,9 +10,7 @@ import {
   Patch,
   Post,
   Req,
-  StandardSchemaValidationPipe,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -151,7 +149,6 @@ const notFoundResponse: ApiResponseNoStatusOptions = {
   },
 })
 @UseGuards(AuthGuard)
-@UsePipes(StandardSchemaValidationPipe)
 @Controller('api/lists')
 export class ListsController {
   constructor(private readonly listsService: ListsService) {}

@@ -4,8 +4,6 @@ import {
     HttpCode,
     HttpStatus,
     Post,
-    StandardSchemaValidationPipe,
-    UsePipes,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -86,7 +84,6 @@ export class AuthController {
       },
     },
   })
-  @UsePipes(StandardSchemaValidationPipe)
   login(@Body({ schema: loginSchema }) input: LoginInputDto) {
     return this.authService.login(input);
   }
@@ -153,7 +150,6 @@ export class AuthController {
     },
   },
 })
-@UsePipes(StandardSchemaValidationPipe)
 register(@Body({ schema: registerSchema }) input: RegisterInputDto) {
   return this.authService.register(input);
 }

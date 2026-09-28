@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module, StandardSchemaValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmExceptionFilter } from './common/filters/exception.filter';
 import {
   createDatabaseOptions,
@@ -30,6 +30,10 @@ import { KanbanModule } from './kanban/kanban.module';
   ],
   controllers: [],
   providers: [
+    {
+      provide: APP_PIPE,
+      useClass: StandardSchemaValidationPipe,
+    },
     {
       provide: APP_FILTER,
       useClass: TypeOrmExceptionFilter,

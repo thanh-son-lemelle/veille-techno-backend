@@ -10,9 +10,7 @@ import {
   Patch,
   Post,
   Req,
-  StandardSchemaValidationPipe,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -171,7 +169,6 @@ const httpErrorSchema: SchemaObject = {
   },
 })
 @UseGuards(AuthGuard)
-@UsePipes(StandardSchemaValidationPipe)
 @Controller('api')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}

@@ -5,9 +5,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Req,
-  StandardSchemaValidationPipe,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -199,7 +197,6 @@ export class UsersController {
     },
   })
   @UseGuards(AuthGuard)
-  @UsePipes(StandardSchemaValidationPipe)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body({ schema: updateUserSchema }) input: UpdateUserInputDto,
