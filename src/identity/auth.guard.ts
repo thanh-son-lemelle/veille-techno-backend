@@ -31,10 +31,14 @@ export class AuthGuard implements CanActivate {
       .switchToHttp()
       .getRequest<AuthenticatedRequest>();
 
-    const token = request.headers.authorization
-      ?.match(/^Bearer +(\S+)$/i)?.[1];
+    const [scheme, ...parts] = request.headers.authorization?.split(' ') ?? [];
+    const token = parts.pop();
 
-    if (!token) {
+    if (
+      scheme?.toLowerCase() !== 'bearer' ||
+      !token ||
+      parts.some((part) => part !== '')
+    ) {
       throw new UnauthorizedException();
     }
 

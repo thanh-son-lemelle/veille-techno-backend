@@ -1,5 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
@@ -8,7 +9,7 @@ import { DataSource, Repository } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { User } from '../src/identity/user.entity';
 
-describe('Inscription (e2e)', () => {
+describe('Authentification (e2e)', () => {
   let app: INestApplication<App>;
   let users: Repository<User>;
   let email: string;
@@ -85,6 +86,56 @@ describe('Inscription (e2e)', () => {
 
     expect(response.body.message).toBe('Cet email est déjà utilisé.');
     expect(await users.countBy({ email })).toBe(1);
+  });
+
+  it('200 : connecte un utilisateur inscrit avec un JWT signé sans données sensibles', async () => {
+    const registered = await request(app.getHttpServer())
+      .post(url)
+      .send({ email, password, name })
+      .expect(201);
+
+    const response = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({ email, password })
+      .expect(200);
+
+    expect(response.body).toEqual({ accessToken: expect.any(String) });
+    const payload = app
+      .get(JwtService)
+      .verify<{ sub: string; iat: number; exp: number }>(
+        response.body.accessToken as string,
+        { algorithms: ['HS256'] },
+      );
+    expect(payload).toEqual({
+      sub: registered.body.id,
+      iat: expect.any(Number),
+      exp: expect.any(Number),
+    });
+    expect(payload.exp - payload.iat).toBe(3600);
+  });
+
+  it('401 : refuse de la même façon un email inconnu et un mot de passe incorrect', async () => {
+    const unknown = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({ email, password })
+      .expect(401);
+
+    await request(app.getHttpServer())
+      .post(url)
+      .send({ email, password, name })
+      .expect(201);
+
+    const incorrect = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({ email, password: 'incorrect' })
+      .expect(401);
+
+    expect(unknown.body).toEqual({
+      statusCode: 401,
+      message: 'Identifiants invalides.',
+      error: 'Unauthorized',
+    });
+    expect(incorrect.body).toEqual(unknown.body);
   });
 
   it.each([

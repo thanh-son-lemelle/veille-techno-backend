@@ -30,7 +30,7 @@ export function createDatabaseOptions(
     migrations: [join(__dirname, 'migrations', '*{.ts,.js}')],
     synchronize: false,
     migrationsRun: false,
-    // PostgreSQL 13+ fournit gen_random_uuid() sans installation d'extension.
+    // PostgreSQL 13+ fournit gen_random_uuid() sans installation d'extension
     uuidExtension: 'pgcrypto',
     installExtensions: false,
     applicationName: 'veille-techno-backend',

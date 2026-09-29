@@ -59,16 +59,82 @@ Pour créer la base locale de l'exemple, avec un utilisateur autorisé :
 createdb -h 127.0.0.1 -p 5432 -U postgres veille_techno
 ```
 
+Appliquer les migrations avant de démarrer l'API :
+
+```bash
+npm run migration:run
+```
+
 Au démarrage, `AppModule` valide les variables d'environnement avec Zod puis
 établit la connexion TypeORM. Les entités enregistrées avec
 `TypeOrmModule.forFeature(...)` sont chargées automatiquement. La synchronisation
 du schéma est désactivée (`synchronize: false`) : le démarrage ne crée ni ne modifie
 les tables.
 
-Pour vérifier la connexion réelle, lancer `npm run test:e2e -- --runInBand`.
-Cette suite utilise la base configurée dans `.env` : elle vérifie la connexion
-avec `SELECT 1`, puis teste l'inscription et la connexion avec des utilisateurs
-temporaires supprimés après chaque test. Utiliser une base dédiée aux tests.
+Pour vérifier la connexion réelle et les dépôts, lancer
+`npm run test:integration -- --runInBand`. Les parcours HTTP avec PostgreSQL
+(authentification, utilisateurs et listes) se lancent avec
+`npm run test:e2e -- --runInBand`.
+La base locale configurée dans `.env` sert au développement et aux tests.
+Ces deux commandes appliquent d'abord les migrations manquantes via
+`pretest:integration` ou `pretest:e2e`. Les migrations déjà enregistrées ne sont
+pas rejouées.
+
+Les tests de listes utilisent les vraies tables et contraintes créées par les
+migrations. Leurs utilisateurs et listes sont créés dans des transactions annulées
+après les tests ; les vérifications portent uniquement sur ces données de test.
+Les tests d'inscription suppriment leurs utilisateurs temporaires après chaque
+scénario.
+
+## Seed : données de démonstration
+
+Avec un fichier `.env` existant et PostgreSQL démarré, exécuter :
+
+```bash
+npm run seed
+npm run start:dev
+```
+
+`npm run seed` applique les migrations manquantes puis affiche les identifiants
+des données créées. Il refuse de s'exécuter si `NODE_ENV=production`. Le mot de
+passe commun aux trois comptes est `SeedPassword123!` :
+
+| Compte | Rôle | ID |
+| --- | --- | --- |
+| `admin@seed.example.com` | `admin` | `10000000-0000-4000-8000-000000000001` |
+| `alice@seed.example.com` | `user` | `10000000-0000-4000-8000-000000000002` |
+| `bob@seed.example.com` | `user` | `10000000-0000-4000-8000-000000000003` |
+
+Les listes sont `Administration` (admin, ID `20000000-0000-4000-8000-000000000001`),
+`À faire` et `Terminé` (Alice, IDs finissant par `002` et `003`), et
+`Veille de Bob` (Bob, ID finissant par `004`). `Terminé` est vide. Les cartes
+sont `Vérifier les rôles` (admin, ID `30000000-0000-4000-8000-000000000001`),
+`Lire la documentation NestJS` (Alice, `002`, description renseignée, position 0),
+`Tester le déplacement` (Alice, `003`, description vide, position 1) et
+`Explorer PostgreSQL` (Bob, `004`). Les IDs complets figurent dans la sortie du seed.
+
+Le seed peut être relancé : il restaure ces fixtures par UUID, leurs mots de
+passe, rôles et modifications, ainsi que les fixtures supprimées, sans effacer
+les autres données. Si une adresse du seed appartient déjà à un autre UUID,
+la transaction échoue au lieu de modifier ce compte.
+
+Pour obtenir un token, envoyer `POST /api/auth/login` avec, par exemple,
+`{"email":"alice@seed.example.com","password":"SeedPassword123!"}`.
+Dans Swagger sur `/api`, cliquer sur **Authorize** et fournir l'`accessToken`
+en Bearer pour essayer les routes protégées.
+
+| Routes | Essais utiles et réponses attendues |
+| --- | --- |
+| `POST /api/auth/register`, `POST /api/auth/login` | Inscription 201 (`role=user`), doublon 409 ; connexion 200, mauvais mot de passe 401. |
+| `PATCH /api/users/:id` | Alice modifie son profil 200 ; celui de Bob ou son propre rôle 403 ; admin modifie un rôle 200. |
+| `GET`, `POST /api/lists` | Listes du compte connecté uniquement 200 ; nouvelle liste 201. |
+| `PATCH`, `DELETE /api/lists/:id` | Propriétaire 200/204 ; liste d'un autre compte 403, même pour admin ; ID absent 404. |
+| `GET`, `POST /api/lists/:listId/cards` | `Terminé` retourne `[]` ; création 201 ; liste étrangère 403. |
+| `GET`, `PATCH`, `DELETE /api/cards/:id` | Carte propriétaire 200/200/204 ; carte étrangère 403 ; déplacement d'Alice de `À faire` vers `Terminé` 200, vers `Veille de Bob` 403. |
+
+Sans token, les routes protégées renvoient 401. Un UUID mal formé renvoie 400.
+`GET /api/users/me` apparaît dans le contrat mais n'est pas encore implémenté.
+Relancer le seed après les essais de modification ou de suppression.
 
 ## Compile and run the project
 
@@ -87,7 +153,10 @@ $ npm run start:prod
 
 Après démarrage, Swagger est accessible sur [http://localhost:3000/api](http://localhost:3000/api)
 (adapter le port à la variable `PORT`). Le document JSON est disponible sur `/api-json`.
-Le contrat de référence est [docs/openapi.yaml](docs/openapi.yaml).
+Le contrat de référence est [docs/openapi.yaml](docs/openapi.yaml). Il est conservé
+tel quel ; la documentation des routes implémentées est enrichie via les
+décorateurs NestJS (`@ApiOperation`, `@ApiBody`, `@ApiResponse`, etc.). Les schémas
+des corps de requête proviennent des schémas Zod déclarés dans `@Body`.
 
 Au démarrage, les opérations du contrat sont comparées aux routes des contrôleurs
 enregistrés dans Nest, via Swagger. La comparaison tient compte de la méthode HTTP,
@@ -96,16 +165,26 @@ mention **Non implémentée**.
 
 ## Run tests
 
-```bash
-# unit tests
-$ npm run test
+| Commande | Tests sélectionnés | PostgreSQL requis |
+| --- | --- | --- |
+| `npm test` | Tous les tests unitaires et HTTP avec dépendances simulées | Non |
+| `npm run test:unit` | `src/**/*.spec.ts`, près des classes testées | Non |
+| `npm run test:http` | `test/http/**/*.http-spec.ts`, requêtes Supertest | Non |
+| `npm run test:integration` | `test/integration/**/*.integration-spec.ts`, connexion et dépôts réels | Oui |
+| `npm run test:e2e` | `test/*.e2e-spec.ts`, parcours HTTP avec la base réelle | Oui |
 
-# e2e tests
-$ npm run test:e2e
+`npm run test:cov` mesure la couverture des tests sans PostgreSQL et génère les
+rapports dans `coverage`. Les tests HTTP des cartes utilisent des dépôts TypeORM
+simulés ; leurs contraintes SQL sont vérifiées séparément par les tests
+d'intégration.
 
-# test coverage
-$ npm run test:cov
-```
+`npm run test:cov:identity` sélectionne les tests unitaires de `src/identity`
+et les tests HTTP de `test/http/identity`, sans PostgreSQL. La couverture porte
+sur `src/identity/**/*.ts` et les rapports sont générés dans `coverage/identity`.
+
+Pour exécuter toutes les catégories, lancer `npm test`, puis
+`npm run test:integration -- --runInBand` et `npm run test:e2e -- --runInBand`
+avec la base configurée et démarrée.
 
 ## Deployment
 

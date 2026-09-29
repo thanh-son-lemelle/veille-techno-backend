@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import type { App } from 'supertest/types';
 import { QueryFailedError } from 'typeorm';
-import { TypeOrmExceptionFilter } from './exception.filter';
+import { TypeOrmExceptionFilter } from '../../src/common/filters/exception.filter';
 
 @Controller('test')
 class DatabaseErrorController {

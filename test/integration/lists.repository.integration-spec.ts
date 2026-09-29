@@ -5,16 +5,15 @@ import { DataSource, QueryRunner } from 'typeorm';
 import {
   createDatabaseOptions,
   environmentSchema,
-} from '../src/database/database.config';
-import { CreateLists1790467200000 } from '../src/database/migrations/1790467200000-create-lists';
-import { List } from '../src/kanban/list.entity';
-import { ListsRepository } from '../src/kanban/lists.repository';
+} from '../../src/database/database.config';
+import { User, UserRole } from '../../src/identity/user.entity';
+import { List } from '../../src/kanban/list.entity';
+import { ListsRepository } from '../../src/kanban/lists.repository';
 
-describe('ListsRepository (PostgreSQL)', () => {
-  const firstOwnerId = '11111111-1111-4111-8111-111111111111';
-  const secondOwnerId = '22222222-2222-4222-8222-222222222222';
-  const missingId = '33333333-3333-4333-8333-333333333333';
-  const migration = new CreateLists1790467200000();
+describe('ListsRepository (PostgreSQL integration)', () => {
+  let firstOwnerId: string;
+  let secondOwnerId: string;
+  const missingId = randomUUID();
   let dataSource: DataSource;
   let queryRunner: QueryRunner;
   let lists: ListsRepository;
@@ -31,15 +30,22 @@ describe('ListsRepository (PostgreSQL)', () => {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    const schema = `kanban_lists_test_${randomUUID().replaceAll('-', '')}`;
-    await queryRunner.query(`CREATE SCHEMA "${schema}"`);
-    await queryRunner.query(`SET LOCAL search_path TO "${schema}", public`);
-    await queryRunner.query('CREATE TABLE "users" ("id" uuid PRIMARY KEY)');
-    await queryRunner.query('INSERT INTO "users" ("id") VALUES ($1), ($2)', [
-      firstOwnerId,
-      secondOwnerId,
+    const users = await queryRunner.manager.getRepository(User).save([
+      {
+        email: `lists-repository-${randomUUID()}@example.test`,
+        password: 'fixture-password-hash-not-used-for-login',
+        name: 'First lists owner',
+        role: UserRole.USER,
+      },
+      {
+        email: `lists-repository-${randomUUID()}@example.test`,
+        password: 'fixture-password-hash-not-used-for-login',
+        name: 'Second lists owner',
+        role: UserRole.USER,
+      },
     ]);
-    await migration.up(queryRunner);
+    firstOwnerId = users[0].id;
+    secondOwnerId = users[1].id;
     lists = new ListsRepository(queryRunner.manager.getRepository(List));
   }, 15000);
 
@@ -166,7 +172,8 @@ describe('ListsRepository (PostgreSQL)', () => {
     expect(
       (
         await queryRunner.query(
-          'SELECT count(*)::integer AS count FROM "lists"',
+          'SELECT count(*)::integer AS count FROM "lists" WHERE "owner_id" = $1',
+          [firstOwnerId],
         )
       )[0].count,
     ).toBe(1);
@@ -195,26 +202,6 @@ describe('ListsRepository (PostgreSQL)', () => {
       lists.createList({ title: 'Orphan', ownerId: missingId }),
     ).rejects.toMatchObject({
       code: '23503',
-    });
-  });
-
-  it('can roll the lists migration down and back up', async () => {
-    await migration.down(queryRunner);
-    expect(
-      (
-        await queryRunner.query(
-          "SELECT to_regclass(current_schema() || '.lists') AS table_name",
-        )
-      )[0].table_name,
-    ).toBeNull();
-
-    await migration.up(queryRunner);
-    const created = await lists.createList({
-      title: 'After migration',
-      ownerId: firstOwnerId,
-    });
-    await expect(lists.findById(created.id)).resolves.toMatchObject({
-      title: 'After migration',
     });
   });
 });
