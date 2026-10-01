@@ -1,20 +1,17 @@
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
-    Body,
-    Controller,
-    HttpCode,
-    HttpStatus,
-    Post,
-} from '@nestjs/common';
-import {
-    ApiBadRequestResponse,
-    ApiBody,
-    ApiConflictResponse,
-    ApiCreatedResponse,
-    ApiOkResponse,
-    ApiUnauthorizedResponse,
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { loginSchema, type LoginInputDto } from '../dtos/loginDto.schema';
-import { registerSchema, type RegisterInputDto } from '../dtos/registerDto.schema';
+import {
+  registerSchema,
+  type RegisterInputDto,
+} from '../dtos/registerDto.schema';
 import { AuthService } from '../services/auth.service';
 
 @Controller('api/auth')
@@ -43,7 +40,8 @@ export class AuthController {
     },
   })
   @ApiBadRequestResponse({
-    description: 'Données de connexion invalides : email mal formé ou mot de passe absent ou vide',
+    description:
+      'Données de connexion invalides : email mal formé ou mot de passe absent ou vide',
     content: {
       'application/json': {
         schema: {
@@ -88,69 +86,69 @@ export class AuthController {
     return this.authService.login(input);
   }
 
-@Post('register')
-@ApiBody({
-  description:
-    'Le nom est débarrassé des espaces en début et fin, puis doit être non vide.',
-})
-@ApiCreatedResponse({
-  description: 'Utilisateur créé',
-  content: {
-    'application/json': {
-      schema: { $ref: '#/components/schemas/User' },
-      example: {
-        id: '550e8400-e29b-41d4-a716-446655440000',
-        email: 'alice@example.com',
-        name: 'Alice',
-        role: 'user',
-        createdAt: '2026-09-25T10:00:00.000Z',
-      },
-    },
-  },
-})
-@ApiBadRequestResponse({
-  description: 'Données d’inscription invalides',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        required: ['statusCode', 'message', 'error'],
-        properties: {
-          statusCode: { type: 'integer' },
-          message: { type: 'array', items: { type: 'string' } },
-          error: { type: 'string' },
+  @Post('register')
+  @ApiBody({
+    description:
+      'Le nom est débarrassé des espaces en début et fin, puis doit être non vide.',
+  })
+  @ApiCreatedResponse({
+    description: 'Utilisateur créé',
+    content: {
+      'application/json': {
+        schema: { $ref: '#/components/schemas/User' },
+        example: {
+          id: '550e8400-e29b-41d4-a716-446655440000',
+          email: 'alice@example.com',
+          name: 'Alice',
+          role: 'user',
+          createdAt: '2026-09-25T10:00:00.000Z',
         },
       },
-      example: {
-        statusCode: 400,
-        message: ['email: Adresse email invalide'],
-        error: 'Bad Request',
-      },
     },
-  },
-})
-@ApiConflictResponse({
-  description: 'Email déjà utilisé',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        required: ['statusCode', 'message', 'error'],
-        properties: {
-          statusCode: { type: 'integer' },
-          message: { type: 'string' },
-          error: { type: 'string' },
+  })
+  @ApiBadRequestResponse({
+    description: 'Données d’inscription invalides',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['statusCode', 'message', 'error'],
+          properties: {
+            statusCode: { type: 'integer' },
+            message: { type: 'array', items: { type: 'string' } },
+            error: { type: 'string' },
+          },
+        },
+        example: {
+          statusCode: 400,
+          message: ['email: Adresse email invalide'],
+          error: 'Bad Request',
         },
       },
-      example: {
-        statusCode: 409,
-        message: 'Cet email est déjà utilisé.',
-        error: 'Conflict',
+    },
+  })
+  @ApiConflictResponse({
+    description: 'Email déjà utilisé',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['statusCode', 'message', 'error'],
+          properties: {
+            statusCode: { type: 'integer' },
+            message: { type: 'string' },
+            error: { type: 'string' },
+          },
+        },
+        example: {
+          statusCode: 409,
+          message: 'Cet email est déjà utilisé.',
+          error: 'Conflict',
+        },
       },
     },
-  },
-})
-register(@Body({ schema: registerSchema }) input: RegisterInputDto) {
-  return this.authService.register(input);
-}
+  })
+  register(@Body({ schema: registerSchema }) input: RegisterInputDto) {
+    return this.authService.register(input);
+  }
 }

@@ -68,9 +68,9 @@ describe('Authentification (e2e)', () => {
       select: { password: true },
     });
 
-    await expect(
-      argon2.verify(savedUser.password, password),
-    ).resolves.toBe(true);
+    await expect(argon2.verify(savedUser.password, password)).resolves.toBe(
+      true,
+    );
   });
 
   it('409 : refuse un email déjà utilisé', async () => {
@@ -162,10 +162,13 @@ describe('Authentification (e2e)', () => {
     expect(await users.countBy({ email })).toBe(0);
   });
 
-  it.each([8, 24])('201 : accepte un mot de passe de %i caractères', async (length) => {
-    await request(app.getHttpServer())
-      .post(url)
-      .send({ email, password: 'a'.repeat(length), name })
-      .expect(201);
-  });
+  it.each([8, 24])(
+    '201 : accepte un mot de passe de %i caractères',
+    async (length) => {
+      await request(app.getHttpServer())
+        .post(url)
+        .send({ email, password: 'a'.repeat(length), name })
+        .expect(201);
+    },
+  );
 });

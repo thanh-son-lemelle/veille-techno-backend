@@ -26,14 +26,14 @@ export function setupSwagger(app: INestApplication): void {
 
   // Collect all implemented operations
   for (const [path, pathItem] of Object.entries(implementedDocument.paths)) {
-      for (const method of methods) {
-        const operation = pathItem[method];
+    for (const method of methods) {
+      const operation = pathItem[method];
 
-        if (operation) {
-          implementedOperations.set(operationKey(method, path), operation);
-        }
+      if (operation) {
+        implementedOperations.set(operationKey(method, path), operation);
       }
     }
+  }
   // Mark non-implemented operations in the OpenAPI document
   for (const [path, pathItem] of Object.entries(document.paths)) {
     for (const method of methods) {
@@ -48,8 +48,7 @@ export function setupSwagger(app: INestApplication): void {
       );
       // If the operation is not implemented, mark it as non-implemented
       if (!generated) {
-        operation.summary =
-          `[Non implémentée] ${operation.summary ?? `${method.toUpperCase()} ${path}`}`;
+        operation.summary = `[Non implémentée] ${operation.summary ?? `${method.toUpperCase()} ${path}`}`;
         continue;
       }
 

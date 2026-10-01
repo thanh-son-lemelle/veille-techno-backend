@@ -11,22 +11,22 @@ export class UsersRepository {
   ) {}
 
   findById(id: string) {
-  return this.repository.findOneBy({ id });
-}
+    return this.repository.findOneBy({ id });
+  }
 
-save(user: User) {
-  return this.repository.save(user);
-}
+  save(user: User) {
+    return this.repository.save(user);
+  }
 
   findIdentityById(id: string): Promise<Pick<User, 'id' | 'role'> | null> {
-  return this.repository.findOne({
-    where: { id },
-    select: {
-      id: true,
-      role: true,
-    },
-  });
-}
+    return this.repository.findOne({
+      where: { id },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
+  }
 
   findForLogin(email: string) {
     return this.repository.findOne({
@@ -39,8 +39,8 @@ save(user: User) {
     email: string;
     name: string;
     passwordHash: string;
-    role: UserRole;})
-  {
+    role: UserRole;
+  }) {
     const user = this.repository.create({
       email: input.email,
       name: input.name,
@@ -51,11 +51,11 @@ save(user: User) {
     const savedUser = await this.repository.save(user);
 
     return {
-    id: savedUser.id,
-    email: savedUser.email,
-    name: savedUser.name,
-    role: savedUser.role,
-    createdAt: savedUser.createdAt,
+      id: savedUser.id,
+      email: savedUser.email,
+      name: savedUser.name,
+      role: savedUser.role,
+      createdAt: savedUser.createdAt,
     };
   }
 }

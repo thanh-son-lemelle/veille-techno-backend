@@ -22,7 +22,10 @@ describe('AuthService', () => {
 
     const moduleRef = await Test.createTestingModule({
       imports: [
-        JwtModule.register({ secret: '05b17eb97d1480c62cae0bd503a1b5774b196101ee565bf1f789f9337829eba1' }),
+        JwtModule.register({
+          secret:
+            '05b17eb97d1480c62cae0bd503a1b5774b196101ee565bf1f789f9337829eba1',
+        }),
       ],
       providers: [
         AuthService,

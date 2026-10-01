@@ -27,9 +27,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context
-      .switchToHttp()
-      .getRequest<AuthenticatedRequest>();
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
 
     const [scheme, ...parts] = request.headers.authorization?.split(' ') ?? [];
     const token = parts.pop();
@@ -56,9 +54,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    const user = await this.usersRepository.findIdentityById(
-      parsed.data.sub,
-    );
+    const user = await this.usersRepository.findIdentityById(parsed.data.sub);
 
     if (!user) {
       throw new UnauthorizedException();

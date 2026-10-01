@@ -92,7 +92,9 @@ describe('ListsService ownership', () => {
   });
 
   it('deletes the owned list', async () => {
-    await expect(service.delete(list.ownerId, list.id)).resolves.toBeUndefined();
+    await expect(
+      service.delete(list.ownerId, list.id),
+    ).resolves.toBeUndefined();
     expect(repository.delete).toHaveBeenCalledTimes(1);
     expect(repository.delete).toHaveBeenCalledWith(list.id);
     expect(repository.save).not.toHaveBeenCalled();

@@ -61,19 +61,22 @@ describe('AuthGuard', () => {
     'Bearer\t%s',
     'Bearer \t%s',
     'Bearer %s\t',
-  ])('refuse un en-tête mal formé même avec un JWT valide (%s)', async (header) => {
-    usersRepository.findIdentityById.mockResolvedValue({
-      id: userId,
-      role: UserRole.USER,
-    });
-    const token = await jwtService.signAsync({ sub: userId });
-    const { context } = requestContext(header.replace('%s', token));
+  ])(
+    'refuse un en-tête mal formé même avec un JWT valide (%s)',
+    async (header) => {
+      usersRepository.findIdentityById.mockResolvedValue({
+        id: userId,
+        role: UserRole.USER,
+      });
+      const token = await jwtService.signAsync({ sub: userId });
+      const { context } = requestContext(header.replace('%s', token));
 
-    await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
-      UnauthorizedException,
-    );
-    expect(usersRepository.findIdentityById).not.toHaveBeenCalled();
-  });
+      await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
+        UnauthorizedException,
+      );
+      expect(usersRepository.findIdentityById).not.toHaveBeenCalled();
+    },
+  );
 
   it('refuse un jeton invalide', async () => {
     const { context } = requestContext('Bearer pas-un-jwt');
@@ -174,7 +177,10 @@ describe('AuthGuard', () => {
 
       await expect(guard.canActivate(context)).resolves.toBe(true);
       expect(usersRepository.findIdentityById).toHaveBeenCalledWith(userId);
-      expect(request).toHaveProperty('user', { id: userId, role: UserRole.USER });
+      expect(request).toHaveProperty('user', {
+        id: userId,
+        role: UserRole.USER,
+      });
     },
   );
 

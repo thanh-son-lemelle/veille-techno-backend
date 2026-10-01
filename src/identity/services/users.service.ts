@@ -1,7 +1,7 @@
 import {
-    ForbiddenException,
-    Injectable,
-    NotFoundException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import type { UpdateUserInputDto } from '../dtos/updateUserDto.schema';
 import { UserRole, type User } from '../user.entity';
@@ -9,9 +9,7 @@ import { UsersRepository } from '../users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-  ) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async update(
     currentUser: Pick<User, 'id' | 'role'>,
@@ -28,9 +26,7 @@ export class UsersService {
     const isOwner = currentUser.id === targetUser.id;
 
     if (!isAdmin && !isOwner) {
-      throw new ForbiddenException(
-        'Vous ne pouvez pas modifier ce profil.',
-      );
+      throw new ForbiddenException('Vous ne pouvez pas modifier ce profil.');
     }
 
     if (!isAdmin && input.role !== undefined) {

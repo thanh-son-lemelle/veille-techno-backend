@@ -18,7 +18,10 @@ describe('Connexion HTTP', () => {
   let user: User;
   const findOne = jest.fn();
   const secret = 'secret-de-test-uniquement-32-caracteres';
-  const credentials = { email: 'alice@example.com', password: 'MotDePasse123!' };
+  const credentials = {
+    email: 'alice@example.com',
+    password: 'MotDePasse123!',
+  };
 
   function createModule(jwtSecret: string | undefined) {
     return Test.createTestingModule({

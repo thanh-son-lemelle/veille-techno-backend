@@ -15,7 +15,7 @@ describe('Database (integration)', () => {
     await app.init();
   });
 
-// test PostgreSQL connection through TypeORM
+  // test PostgreSQL connection through TypeORM
   it('queries PostgreSQL through the configured TypeORM data source', async () => {
     const dataSource = app.get(DataSource);
 

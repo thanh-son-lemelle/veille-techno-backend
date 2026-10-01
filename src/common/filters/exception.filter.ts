@@ -1,8 +1,4 @@
-import {
-  type ArgumentsHost,
-  Catch,
-  ConflictException,
-} from '@nestjs/common';
+import { type ArgumentsHost, Catch, ConflictException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { QueryFailedError } from 'typeorm';
 
@@ -17,10 +13,7 @@ export class TypeOrmExceptionFilter extends BaseExceptionFilter {
       'constraint' in error &&
       error.constraint === 'UQ_97672ac88f789774dd47f7c8be3'
     ) {
-      super.catch(
-        new ConflictException('Cet email est déjà utilisé.'),
-        host,
-      );
+      super.catch(new ConflictException('Cet email est déjà utilisé.'), host);
       return;
     }
 

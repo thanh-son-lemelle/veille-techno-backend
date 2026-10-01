@@ -206,72 +206,72 @@ describe('Swagger route detection', () => {
   });
 
   it('expose le schéma Zod et les exemples des réponses d’inscription', async () => {
-  const moduleRef = await Test.createTestingModule({
-    controllers: [AuthController],
-    providers: [
-      {
-        provide: AuthService,
-        useValue: { register: jest.fn() },
-      },
-    ],
-  }).compile();
+    const moduleRef = await Test.createTestingModule({
+      controllers: [AuthController],
+      providers: [
+        {
+          provide: AuthService,
+          useValue: { register: jest.fn() },
+        },
+      ],
+    }).compile();
 
-  const swaggerApp = moduleRef.createNestApplication<INestApplication<App>>();
+    const swaggerApp = moduleRef.createNestApplication<INestApplication<App>>();
 
-  try {
-    // Le vrai contrôleur contient déjà le préfixe api/auth.
-    setupSwagger(swaggerApp);
-    await swaggerApp.init();
+    try {
+      // Le vrai contrôleur contient déjà le préfixe api/auth.
+      setupSwagger(swaggerApp);
+      await swaggerApp.init();
 
-    const response = await request(swaggerApp.getHttpServer())
-      .get('/api-json')
-      .expect(200);
+      const response = await request(swaggerApp.getHttpServer())
+        .get('/api-json')
+        .expect(200);
 
-    const document = response.body as OpenAPIObject;
-    const operation = document.paths['/auth/register'].post;
+      const document = response.body as OpenAPIObject;
+      const operation = document.paths['/auth/register'].post;
 
-    expect(operation).toMatchObject({
-      security: [],
-      requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              additionalProperties: false,
-              required: expect.arrayContaining(['email', 'password', 'name']),
-              properties: {
-                email: { format: 'email' },
-                password: { minLength: 8, maxLength: 24 },
-                name: { minLength: 1 },
+      expect(operation).toMatchObject({
+        security: [],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                additionalProperties: false,
+                required: expect.arrayContaining(['email', 'password', 'name']),
+                properties: {
+                  email: { format: 'email' },
+                  password: { minLength: 8, maxLength: 24 },
+                  name: { minLength: 1 },
+                },
               },
             },
           },
         },
-      },
-    });
+      });
 
-    for (const status of ['201', '400', '409']) {
-      expect(operation?.responses[status]).toMatchObject({
+      for (const status of ['201', '400', '409']) {
+        expect(operation?.responses[status]).toMatchObject({
+          content: {
+            'application/json': {
+              schema: expect.any(Object),
+              example: expect.any(Object),
+            },
+          },
+        });
+      }
+
+      expect(operation?.responses['400']).not.toHaveProperty('$ref');
+
+      expect(operation?.responses['201']).toMatchObject({
         content: {
           'application/json': {
-            schema: expect.any(Object),
-            example: expect.any(Object),
+            schema: { $ref: '#/components/schemas/User' },
           },
         },
       });
+    } finally {
+      await swaggerApp.close();
     }
-
-    expect(operation?.responses['400']).not.toHaveProperty('$ref');
-
-    expect(operation?.responses['201']).toMatchObject({
-      content: {
-        'application/json': {
-          schema: { $ref: '#/components/schemas/User' },
-        },
-      },
-    });
-  } finally {
-    await swaggerApp.close();
-  }
   });
 });
 
@@ -292,7 +292,9 @@ describe('Swagger de modification utilisateur', () => {
     app.useGlobalPipes(new StandardSchemaValidationPipe());
     setupSwagger(app);
     await app.init();
-    const response = await request(app.getHttpServer()).get('/api-json').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/api-json')
+      .expect(200);
     document = response.body as OpenAPIObject;
   });
 
@@ -328,7 +330,12 @@ describe('Swagger de modification utilisateur', () => {
               },
             },
             examples: {
-              profil: { value: { name: 'Alice Dupont', email: 'alice.dupont@example.com' } },
+              profil: {
+                value: {
+                  name: 'Alice Dupont',
+                  email: 'alice.dupont@example.com',
+                },
+              },
               role: { value: { role: 'admin' } },
             },
           },
@@ -341,15 +348,27 @@ describe('Swagger de modification utilisateur', () => {
     const schema = body.content['application/json'].schema;
     if (!schema || '$ref' in schema) throw new Error('Schéma du body manquant');
     expect(schema.required ?? []).toEqual([]);
-    expect(Object.keys(schema.properties ?? {}).sort()).toEqual(['email', 'name', 'role']);
+    expect(Object.keys(schema.properties ?? {}).sort()).toEqual([
+      'email',
+      'name',
+      'role',
+    ]);
   });
 
   it('documente les six réponses et une représentation publique sans mot de passe', () => {
     const responses = document.paths['/users/{id}'].patch!.responses;
-    expect(Object.keys(responses).sort()).toEqual(['200', '400', '401', '403', '404', '409']);
+    expect(Object.keys(responses).sort()).toEqual([
+      '200',
+      '400',
+      '401',
+      '403',
+      '404',
+      '409',
+    ]);
 
     for (const response of Object.values(responses)) {
-      if (!response || '$ref' in response) throw new Error('Réponse Swagger manquante');
+      if (!response || '$ref' in response)
+        throw new Error('Réponse Swagger manquante');
       const media = response.content?.['application/json'];
       expect(media?.schema).toBeDefined();
       expect(media?.example ?? media?.examples).toBeDefined();
@@ -371,11 +390,18 @@ describe('Swagger de modification utilisateur', () => {
     });
     const success = responses['200'];
     if (!success || '$ref' in success) throw new Error('Réponse 200 manquante');
-    expect(success.content?.['application/json'].example).not.toHaveProperty('password');
+    expect(success.content?.['application/json'].example).not.toHaveProperty(
+      'password',
+    );
     const userSchema = document.components?.schemas?.User;
-    if (!userSchema || '$ref' in userSchema) throw new Error('Schéma User manquant');
+    if (!userSchema || '$ref' in userSchema)
+      throw new Error('Schéma User manquant');
     expect(Object.keys(userSchema.properties ?? {}).sort()).toEqual([
-      'createdAt', 'email', 'id', 'name', 'role',
+      'createdAt',
+      'email',
+      'id',
+      'name',
+      'role',
     ]);
     expect(responses['401']).toMatchObject({
       content: {
@@ -390,17 +416,23 @@ describe('Swagger de modification utilisateur', () => {
   it.each([
     ['identifiant', 'invalide', { name: 'Alice' }],
     ['payload', '550e8400-e29b-41d4-a716-446655440000', { email: 'invalide' }],
-  ])('l’exemple 400 %s correspond à la réponse HTTP réelle', async (example, id, body) => {
-    const response = await request(app.getHttpServer())
-      .patch(`/api/users/${id}`)
-      .send(body)
-      .expect(400);
+  ])(
+    'l’exemple 400 %s correspond à la réponse HTTP réelle',
+    async (example, id, body) => {
+      const response = await request(app.getHttpServer())
+        .patch(`/api/users/${id}`)
+        .send(body)
+        .expect(400);
 
-    const documented = document.paths['/users/{id}'].patch!.responses['400'];
-    if (!documented || '$ref' in documented) throw new Error('Réponse 400 manquante');
-    expect(documented.content?.['application/json'].examples?.[example]).toEqual({
-      summary: expect.any(String),
-      value: response.body,
-    });
-  });
+      const documented = document.paths['/users/{id}'].patch!.responses['400'];
+      if (!documented || '$ref' in documented)
+        throw new Error('Réponse 400 manquante');
+      expect(
+        documented.content?.['application/json'].examples?.[example],
+      ).toEqual({
+        summary: expect.any(String),
+        value: response.body,
+      });
+    },
+  );
 });

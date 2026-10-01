@@ -21,10 +21,7 @@ import {
   type SchemaObject,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../auth.guard';
-import {
-  CurrentUser,
-  type AuthenticatedUser,
-} from '../current-user.decorator';
+import { CurrentUser, type AuthenticatedUser } from '../current-user.decorator';
 import {
   updateUserSchema,
   type UpdateUserInputDto,
@@ -45,13 +42,12 @@ const httpErrorSchema: SchemaObject = {
 @ApiBearerAuth('bearerAuth')
 @Controller('api/users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Patch(':id')
   @ApiOperation({
-    summary: "Modifier les informations d'un utilisateur (y compris ses droits)",
+    summary:
+      "Modifier les informations d'un utilisateur (y compris ses droits)",
     description:
       'Un utilisateur peut modifier son propre nom et son email. Un administrateur peut modifier tout profil et changer son rôle. Un non-admin qui fournit le champ role reçoit 403, même sur son propre profil et même si la valeur est inchangée.',
   })
@@ -129,7 +125,8 @@ export class UsersController {
     },
   })
   @ApiUnauthorizedResponse({
-    description: 'Token absent, invalide ou expiré, ou utilisateur connecté supprimé',
+    description:
+      'Token absent, invalide ou expiré, ou utilisateur connecté supprimé',
     content: {
       'application/json': {
         schema: {
@@ -145,7 +142,8 @@ export class UsersController {
     },
   })
   @ApiForbiddenResponse({
-    description: "Un non-admin tente de modifier un autre profil ou d'envoyer un rôle",
+    description:
+      "Un non-admin tente de modifier un autre profil ou d'envoyer un rôle",
     content: {
       'application/json': {
         schema: httpErrorSchema,
