@@ -59,6 +59,9 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
+      - name: Format code
+        run: npm run format
+
       - name: Check format
         run: npm run format:check
 
