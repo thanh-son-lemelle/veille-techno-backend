@@ -67,7 +67,10 @@ Swagger est accessible sur [http://localhost:3000/api](http://localhost:3000/api
 Le démarrage est terminé lorsque les deux services sont sains (`healthy`).
 
 Les dossiers `src`, `test` et `docs` sont partagés avec les conteneurs. Les
-modifications TypeScript dans `src` relancent automatiquement l'API
+modifications TypeScript dans `src` relancent automatiquement l'API sans
+reconstruction de l'image. Les dépendances `node_modules` et le JavaScript
+compilé dans `dist` restent dans le conteneur.
+
 Après un changement de `package.json`, `package-lock.json` ou des fichiers de configuration à la racine,
 relancer `docker compose --env-file .env.docker up --build --wait`.
 Après un changement de `.env.docker`, relancer la même commande pour recréer les
@@ -82,6 +85,9 @@ Commandes utiles :
 # État et logs
 docker compose --env-file .env.docker ps
 docker compose --env-file .env.docker logs -f api
+
+# Appliquer les migrations en attente (sans seed ni synchronisation automatique)
+docker compose --env-file .env.docker exec api npm run migration:run
 
 # Charger les comptes et données de démonstration décrits plus bas
 docker compose --env-file .env.docker exec api npm run seed
