@@ -186,6 +186,34 @@ Pour exécuter toutes les catégories, lancer `npm test`, puis
 `npm run test:integration -- --runInBand` et `npm run test:e2e -- --runInBand`
 avec la base configurée et démarrée.
 
+## Intégration continue (CI)
+
+Le workflow [CI backend](.github/workflows/ci.yml) s'exécute sur GitHub Actions
+à chaque push et pull request. Il peut aussi être lancé manuellement depuis
+l'onglet **Actions** une fois le workflow présent sur la branche principale.
+
+Sur Ubuntu avec Node.js 24, il exécute dans cet ordre :
+
+1. `npm ci` pour installer les versions du `package-lock.json`.
+2. `npm run format:check`,`npm run lint` puis `npm run build`.
+3. `npm test -- --ci --runInBand` pour les tests unitaires et HTTP.
+4. `npm run test:integration -- --ci --runInBand`.
+5. `npm run test:e2e -- --ci --runInBand`.
+
+Les tests avec base de données utilisent un service PostgreSQL 17 temporaire,
+créé pour chaque job. Les scripts `pretest:integration` et `pretest:e2e`
+appliquent les migrations automatiquement. Les suites s'exécutent successivement
+pour éviter les interférences entre leurs données de test.
+
+Aucun fichier `.env` ni secret GitHub n'est nécessaire : le workflow définit
+des identifiants et un `JWT_SECRET` réservés à cette base de test éphémère.
+Une nouvelle exécution annule la précédente pour la même branche ou pull request.
+
+Après avoir poussé le workflow, consulter **Actions → CI backend** pour voir
+le résultat et les logs de chaque étape. Pour rendre la CI obligatoire avant
+fusion, ajouter le contrôle **Lint, build et tests** aux contrôles requis de
+la règle de protection de la branche concernée, après sa première exécution.
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.

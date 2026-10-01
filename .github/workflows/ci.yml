@@ -1,0 +1,79 @@
+name: CI backend
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Lint, build et tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: veille_techno_ci
+      # Valeur réservée aux tests sur la base temporaire de ce job.
+      JWT_SECRET: ${{ secrets.JWT_SECRET_CI }}
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: veille_techno_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d veille_techno_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          check-latest: true
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Check format
+        run: npm run format:check
+
+      - name: Vérifier le lint
+        run: npm run lint
+
+      - name: Compiler le backend
+        run: npm run build
+
+      - name: Tests unitaires et HTTP
+        run: npm test -- --ci --runInBand
+
+      # Les scripts pretest appliquent les migrations avant chaque suite.
+      - name: Tests d'intégration PostgreSQL
+        run: npm run test:integration -- --ci --runInBand
+
+      - name: Tests end-to-end
+        run: npm run test:e2e -- --ci --runInBand
