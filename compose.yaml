@@ -1,0 +1,53 @@
+services:
+  api:
+    build: .
+    init: true
+    command: sh -c "npm run migration:run && exec npm run start:dev"
+    ports:
+      - '127.0.0.1:${DOCKER_API_PORT:-3000}:3000'
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:?Renseigner DB_USERNAME dans .env.docker}
+      DB_PASSWORD: ${DB_PASSWORD:?Renseigner DB_PASSWORD dans .env.docker}
+      DB_DATABASE: ${DB_DATABASE:?Renseigner DB_DATABASE dans .env.docker}
+      JWT_SECRET: ${JWT_SECRET:?Renseigner JWT_SECRET dans .env.docker}
+      TSC_WATCHFILE: DynamicPriorityPolling
+      TSC_WATCHDIRECTORY: DynamicPriorityPolling
+    volumes:
+      - ./src:/app/src
+      - ./test:/app/test
+      - ./docs:/app/docs:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api-json').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:?Renseigner DB_USERNAME dans .env.docker}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Renseigner DB_PASSWORD dans .env.docker}
+      POSTGRES_DB: ${DB_DATABASE:?Renseigner DB_DATABASE dans .env.docker}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

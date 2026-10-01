@@ -31,7 +31,87 @@
 $ npm install
 ```
 
-## Configuration de la base de données
+## Développement local avec Docker
+
+Avec Docker Desktop démarré en mode conteneurs Linux, créer la configuration
+locale depuis la racine du backend :
+
+```powershell
+if (-not (Test-Path .env.docker)) { Copy-Item .env.docker.example .env.docker }
+```
+
+Adapter `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE` et `DOCKER_API_PORT` dans
+`.env.docker`. Générer un secret, puis copier le résultat dans `JWT_SECRET`
+(au moins 32 caractères) :
+
+```bash
+docker run --rm node:24-bookworm-slim node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+Le fichier [`.env.docker.example`](.env.docker.example) est versionné ;
+`.env.docker` est ignoré par Git et exclu de l'image Docker. Utiliser
+`--env-file .env.docker` pour toutes les commandes Compose : ce fichier fournit
+les paramètres partagés par l'API et PostgreSQL, à la place du `.env` de
+l'installation sans Docker. Les variables déjà exportées dans le terminal
+restent prioritaires.
+
+Démarrer l'environnement :
+
+```bash
+docker compose --env-file .env.docker up --build --wait
+```
+
+Cette commande construit l'image Node.js 24, démarre PostgreSQL 17, attend que
+la base soit prête, applique les migrations puis lance l'API en mode watch.
+Swagger est accessible sur [http://localhost:3000/api](http://localhost:3000/api).
+Le démarrage est terminé lorsque les deux services sont sains (`healthy`).
+
+Les dossiers `src`, `test` et `docs` sont partagés avec les conteneurs. Les
+modifications TypeScript dans `src` relancent automatiquement l'API
+Après un changement de `package.json`, `package-lock.json` ou des fichiers de configuration à la racine,
+relancer `docker compose --env-file .env.docker up --build --wait`.
+Après un changement de `.env.docker`, relancer la même commande pour recréer les
+conteneurs avec les nouvelles valeurs. Attention : sur un volume PostgreSQL déjà
+initialisé, changer `DB_USERNAME`, `DB_PASSWORD` ou `DB_DATABASE` ne modifie pas
+les utilisateurs, mots de passe ou bases existants ; ces changements doivent
+aussi être effectués dans PostgreSQL.
+
+Commandes utiles :
+
+```bash
+# État et logs
+docker compose --env-file .env.docker ps
+docker compose --env-file .env.docker logs -f api
+
+# Charger les comptes et données de démonstration décrits plus bas
+docker compose --env-file .env.docker exec api npm run seed
+
+# Exécuter les tests dans cet environnement
+docker compose --env-file .env.docker exec api npm test -- --runInBand
+docker compose --env-file .env.docker exec api npm run test:integration -- --runInBand
+docker compose --env-file .env.docker exec api npm run test:e2e -- --runInBand
+
+# Ouvrir une session SQL dans la base Docker
+docker compose --env-file .env.docker exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+
+# Arrêter et supprimer les conteneurs, en conservant les données
+docker compose --env-file .env.docker down
+```
+
+Si le port 3000 est déjà occupé, renseigner `DOCKER_API_PORT=3001` dans
+`.env.docker`, puis relancer :
+
+```bash
+docker compose --env-file .env.docker up --build --wait
+```
+
+Swagger sera alors disponible sur [http://localhost:3001/api](http://localhost:3001/api).
+Pour remettre la base Docker à zéro,
+`docker compose --env-file .env.docker down --volumes` supprime aussi le volume
+et **toutes ses données**. Au démarrage suivant, les migrations recréent les tables ;
+le seed reste une commande explicite.
+
+## Configuration de la base de données sans Docker
 
 Le backend utilise PostgreSQL avec TypeORM. Copier `.env.example` vers `.env`
 et renseigner les accès à votre serveur PostgreSQL :
