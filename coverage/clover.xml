@@ -1,194 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1790759219643" clover="3.2.0">
-  <project timestamp="1790759219643" name="All files">
-    <metrics statements="432" coveredstatements="343" conditionals="174" coveredconditionals="142" methods="76" coveredmethods="56" elements="682" coveredelements="541" complexity="0" loc="432" ncloc="432" packages="12" files="36" classes="36"/>
-    <package name="src">
-      <metrics statements="64" coveredstatements="44" conditionals="25" coveredconditionals="23" methods="4" coveredmethods="2"/>
-      <file name="app.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\app.module.ts">
-        <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-      </file>
-      <file name="main.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\main.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-      </file>
-      <file name="swagger.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\swagger.ts">
-        <metrics statements="45" coveredstatements="44" conditionals="25" coveredconditionals="23" methods="2" coveredmethods="2"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="9" count="149" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="14" count="9" type="stmt"/>
-        <line num="15" count="9" type="stmt"/>
-        <line num="17" count="9" type="stmt"/>
-        <line num="18" count="9" type="stmt"/>
-        <line num="20" count="9" type="stmt"/>
-        <line num="21" count="9" type="stmt"/>
-        <line num="25" count="9" type="stmt"/>
-        <line num="28" count="9" type="stmt"/>
-        <line num="29" count="27" type="stmt"/>
-        <line num="30" count="108" type="stmt"/>
-        <line num="32" count="108" type="cond" truecount="2" falsecount="0"/>
-        <line num="33" count="32" type="stmt"/>
-        <line num="38" count="9" type="stmt"/>
-        <line num="39" count="72" type="stmt"/>
-        <line num="40" count="288" type="stmt"/>
-        <line num="42" count="288" type="cond" truecount="2" falsecount="0"/>
-        <line num="43" count="171" type="stmt"/>
-        <line num="46" count="117" type="stmt"/>
-        <line num="50" count="117" type="cond" truecount="2" falsecount="0"/>
-        <line num="51" count="92" type="stmt"/>
-        <line num="53" count="92" type="stmt"/>
-        <line num="56" count="25" type="cond" truecount="2" falsecount="0"/>
-        <line num="57" count="15" type="stmt"/>
-        <line num="59" count="25" type="cond" truecount="2" falsecount="0"/>
-        <line num="60" count="11" type="stmt"/>
-        <line num="62" count="25" type="cond" truecount="2" falsecount="0"/>
-        <line num="63" count="9" type="stmt"/>
-        <line num="65" count="25" type="cond" truecount="2" falsecount="0"/>
-        <line num="66" count="12" type="stmt"/>
-        <line num="69" count="25" type="stmt"/>
-        <line num="70" count="78" type="cond" truecount="1" falsecount="1"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="74" count="78" type="stmt"/>
-        <line num="76" count="78" type="cond" truecount="5" falsecount="0"/>
-        <line num="77" count="47" type="stmt"/>
-        <line num="78" count="47" type="stmt"/>
-        <line num="81" count="31" type="stmt"/>
-        <line num="93" count="9" type="stmt"/>
-        <line num="100" count="9" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.common.filters">
-      <metrics statements="9" coveredstatements="7" conditionals="6" coveredconditionals="3" methods="1" coveredmethods="1"/>
-      <file name="exception.filter.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\common\filters\exception.filter.ts">
-        <metrics statements="9" coveredstatements="7" conditionals="6" coveredconditionals="3" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.database">
-      <metrics statements="50" coveredstatements="7" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-      <file name="data-source.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\data-source.ts">
-        <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-      </file>
-      <file name="database.config.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\database.config.ts">
-        <metrics statements="8" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-      </file>
-      <file name="development-seed.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\development-seed.ts">
-        <metrics statements="15" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-      </file>
-      <file name="seed.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\seed.ts">
-        <metrics statements="17" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="31" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.database.migrations">
-      <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
-      <file name="1790150049763-create-users.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\migrations\1790150049763-create-users.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-      </file>
-      <file name="1790467200000-create-lists.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\migrations\1790467200000-create-lists.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-      </file>
-      <file name="1790553600000-create-cards.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\database\migrations\1790553600000-create-cards.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.identity">
+<coverage generated="1790848391749" clover="3.2.0">
+  <project timestamp="1790848391749" name="All files">
+    <metrics statements="293" coveredstatements="285" conditionals="137" coveredconditionals="116" methods="59" coveredmethods="53" elements="489" coveredelements="454" complexity="0" loc="293" ncloc="293" packages="8" files="25" classes="25"/>
+    <package name="identity">
       <metrics statements="65" coveredstatements="60" conditionals="29" coveredconditionals="25" methods="12" coveredmethods="9"/>
-      <file name="auth.guard.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\auth.guard.ts">
+      <file name="auth.guard.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\auth.guard.ts">
         <metrics statements="25" coveredstatements="25" conditionals="19" coveredconditionals="17" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
         <line num="7" count="5" type="stmt"/>
@@ -199,30 +15,30 @@
         <line num="25" count="38" type="cond" truecount="6" falsecount="2"/>
         <line num="26" count="38" type="stmt"/>
         <line num="30" count="383" type="stmt"/>
-        <line num="34" count="383" type="cond" truecount="2" falsecount="0"/>
-        <line num="35" count="383" type="stmt"/>
-        <line num="37" count="383" type="cond" truecount="2" falsecount="0"/>
-        <line num="40" count="5" type="stmt"/>
-        <line num="42" count="16" type="stmt"/>
-        <line num="47" count="367" type="stmt"/>
-        <line num="48" count="367" type="stmt"/>
-        <line num="50" count="21" type="stmt"/>
-        <line num="53" count="346" type="stmt"/>
-        <line num="55" count="346" type="cond" truecount="2" falsecount="0"/>
-        <line num="56" count="3" type="stmt"/>
-        <line num="59" count="343" type="stmt"/>
-        <line num="63" count="342" type="cond" truecount="2" falsecount="0"/>
-        <line num="64" count="6" type="stmt"/>
-        <line num="67" count="336" type="stmt"/>
-        <line num="68" count="336" type="stmt"/>
+        <line num="32" count="383" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="383" type="stmt"/>
+        <line num="35" count="383" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="40" count="16" type="stmt"/>
+        <line num="45" count="367" type="stmt"/>
+        <line num="46" count="367" type="stmt"/>
+        <line num="48" count="21" type="stmt"/>
+        <line num="51" count="346" type="stmt"/>
+        <line num="53" count="346" type="cond" truecount="2" falsecount="0"/>
+        <line num="54" count="3" type="stmt"/>
+        <line num="57" count="343" type="stmt"/>
+        <line num="59" count="342" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="6" type="stmt"/>
+        <line num="63" count="336" type="stmt"/>
+        <line num="64" count="336" type="stmt"/>
       </file>
-      <file name="current-user.decorator.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\current-user.decorator.ts">
+      <file name="current-user.decorator.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\current-user.decorator.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="4" type="stmt"/>
         <line num="6" count="4" type="stmt"/>
         <line num="8" count="342" type="stmt"/>
       </file>
-      <file name="identity.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\identity.module.ts">
+      <file name="identity.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\identity.module.ts">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -238,7 +54,7 @@
         <line num="18" count="5" type="stmt"/>
         <line num="34" count="2" type="stmt"/>
       </file>
-      <file name="user.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\user.entity.ts">
+      <file name="user.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\user.entity.ts">
         <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="1" count="10" type="stmt"/>
         <line num="8" count="10" type="cond" truecount="2" falsecount="0"/>
@@ -252,7 +68,7 @@
         <line num="29" count="17" type="stmt"/>
         <line num="32" count="10" type="cond" truecount="3" falsecount="1"/>
       </file>
-      <file name="users.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\users.repository.ts">
+      <file name="users.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\users.repository.ts">
         <metrics statements="13" coveredstatements="8" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -269,59 +85,59 @@
         <line num="53" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.identity.controllers">
+    <package name="identity.controllers">
       <metrics statements="22" coveredstatements="21" conditionals="8" coveredconditionals="6" methods="5" coveredmethods="4"/>
-      <file name="auth.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\controllers\auth.controller.ts">
+      <file name="auth.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\controllers\auth.controller.ts">
         <metrics statements="11" coveredstatements="10" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
         <line num="18" count="4" type="stmt"/>
-        <line num="21" count="4" type="stmt"/>
-        <line num="22" count="8" type="cond" truecount="3" falsecount="1"/>
-        <line num="87" count="4" type="stmt"/>
-        <line num="88" count="5" type="stmt"/>
-        <line num="153" count="4" type="stmt"/>
-        <line num="154" count="0" type="stmt"/>
+        <line num="19" count="8" type="cond" truecount="3" falsecount="1"/>
+        <line num="85" count="4" type="stmt"/>
+        <line num="86" count="5" type="stmt"/>
+        <line num="151" count="4" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
       </file>
-      <file name="users.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\controllers\users.controller.ts">
+      <file name="users.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\controllers\users.controller.ts">
         <metrics statements="11" coveredstatements="11" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
         <line num="9" count="4" type="stmt"/>
         <line num="23" count="4" type="stmt"/>
         <line num="24" count="4" type="stmt"/>
-        <line num="28" count="4" type="stmt"/>
-        <line num="32" count="4" type="stmt"/>
-        <line num="34" count="4" type="stmt"/>
-        <line num="47" count="4" type="stmt"/>
-        <line num="49" count="7" type="cond" truecount="3" falsecount="1"/>
-        <line num="200" count="4" type="stmt"/>
-        <line num="205" count="2" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="44" count="4" type="stmt"/>
+        <line num="45" count="7" type="cond" truecount="3" falsecount="1"/>
+        <line num="198" count="4" type="stmt"/>
+        <line num="203" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.identity.dtos">
+    <package name="identity.dtos">
       <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="loginDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\dtos\loginDto.schema.ts">
+      <file name="loginDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\dtos\loginDto.schema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
       </file>
-      <file name="registerDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\dtos\registerDto.schema.ts">
+      <file name="registerDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\dtos\registerDto.schema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
       </file>
-      <file name="updateUserDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\dtos\updateUserDto.schema.ts">
+      <file name="updateUserDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\dtos\updateUserDto.schema.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="src.identity.services">
+    <package name="identity.services">
       <metrics statements="36" coveredstatements="36" conditionals="32" coveredconditionals="29" methods="5" coveredmethods="5"/>
-      <file name="auth.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\services\auth.service.ts">
+      <file name="auth.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\services\auth.service.ts">
         <metrics statements="14" coveredstatements="14" conditionals="12" coveredconditionals="10" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -338,35 +154,35 @@
         <line num="27" count="2" type="stmt"/>
         <line num="31" count="2" type="stmt"/>
       </file>
-      <file name="users.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\identity\services\users.service.ts">
+      <file name="users.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\identity\services\users.service.ts">
         <metrics statements="22" coveredstatements="22" conditionals="20" coveredconditionals="19" methods="2" coveredmethods="2"/>
         <line num="1" count="5" type="stmt"/>
         <line num="7" count="5" type="stmt"/>
         <line num="8" count="5" type="stmt"/>
         <line num="11" count="5" type="stmt"/>
-        <line num="13" count="17" type="cond" truecount="3" falsecount="1"/>
-        <line num="21" count="12" type="stmt"/>
-        <line num="23" count="11" type="cond" truecount="2" falsecount="0"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="27" count="10" type="stmt"/>
-        <line num="28" count="10" type="stmt"/>
-        <line num="30" count="10" type="cond" truecount="4" falsecount="0"/>
-        <line num="31" count="3" type="stmt"/>
-        <line num="36" count="7" type="cond" truecount="4" falsecount="0"/>
-        <line num="37" count="1" type="stmt"/>
+        <line num="12" count="17" type="cond" truecount="3" falsecount="1"/>
+        <line num="19" count="12" type="stmt"/>
+        <line num="21" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="25" count="10" type="stmt"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="28" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="32" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="38" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="5" type="stmt"/>
         <line num="42" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="43" count="5" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
         <line num="46" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="47" count="3" type="stmt"/>
-        <line num="50" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="51" count="2" type="stmt"/>
-        <line num="54" count="6" type="stmt"/>
-        <line num="56" count="5" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="50" count="6" type="stmt"/>
+        <line num="52" count="5" type="stmt"/>
       </file>
     </package>
-    <package name="src.kanban">
+    <package name="kanban">
       <metrics statements="58" coveredstatements="56" conditionals="28" coveredconditionals="21" methods="14" coveredmethods="12"/>
-      <file name="card.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\card.entity.ts">
+      <file name="card.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\card.entity.ts">
         <metrics statements="12" coveredstatements="11" conditionals="12" coveredconditionals="9" methods="1" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="11" count="2" type="stmt"/>
@@ -381,7 +197,7 @@
         <line num="36" count="2" type="cond" truecount="3" falsecount="1"/>
         <line num="39" count="2" type="cond" truecount="3" falsecount="1"/>
       </file>
-      <file name="cards.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\cards.repository.ts">
+      <file name="cards.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\cards.repository.ts">
         <metrics statements="12" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -396,7 +212,7 @@
         <line num="41" count="4" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
       </file>
-      <file name="kanban.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\kanban.module.ts">
+      <file name="kanban.module.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\kanban.module.ts">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -411,7 +227,7 @@
         <line num="11" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
       </file>
-      <file name="list.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\list.entity.ts">
+      <file name="list.entity.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\list.entity.ts">
         <metrics statements="10" coveredstatements="9" conditionals="8" coveredconditionals="6" methods="1" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
@@ -424,7 +240,7 @@
         <line num="29" count="3" type="cond" truecount="3" falsecount="1"/>
         <line num="32" count="3" type="cond" truecount="3" falsecount="1"/>
       </file>
-      <file name="lists.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\lists.repository.ts">
+      <file name="lists.repository.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\lists.repository.ts">
         <metrics statements="12" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -440,9 +256,9 @@
         <line num="39" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.kanban.controllers">
+    <package name="kanban.controllers">
       <metrics statements="47" coveredstatements="47" conditionals="8" coveredconditionals="6" methods="11" coveredmethods="11"/>
-      <file name="cards.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\controllers\cards.controller.ts">
+      <file name="cards.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\controllers\cards.controller.ts">
         <metrics statements="22" coveredstatements="22" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
@@ -467,7 +283,7 @@
         <line num="323" count="1" type="stmt"/>
         <line num="327" count="5" type="stmt"/>
       </file>
-      <file name="lists.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\controllers\lists.controller.ts">
+      <file name="lists.controller.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\controllers\lists.controller.ts">
         <metrics statements="25" coveredstatements="25" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
@@ -496,33 +312,33 @@
         <line num="292" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="src.kanban.dtos">
+    <package name="kanban.dtos">
       <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="createCardDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\dtos\createCardDto.schema.ts">
+      <file name="createCardDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\dtos\createCardDto.schema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
       </file>
-      <file name="createListDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\dtos\createListDto.schema.ts">
+      <file name="createListDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\dtos\createListDto.schema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
       </file>
-      <file name="updateCardDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\dtos\updateCardDto.schema.ts">
+      <file name="updateCardDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\dtos\updateCardDto.schema.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
-      <file name="updateListDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\dtos\updateListDto.schema.ts">
+      <file name="updateListDto.schema.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\dtos\updateListDto.schema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.kanban.services">
+    <package name="kanban.services">
       <metrics statements="49" coveredstatements="49" conditionals="32" coveredconditionals="29" methods="12" coveredmethods="12"/>
-      <file name="cards.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\services\cards.service.ts">
+      <file name="cards.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\services\cards.service.ts">
         <metrics statements="29" coveredstatements="29" conditionals="20" coveredconditionals="18" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -554,7 +370,7 @@
         <line num="59" count="5" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
       </file>
-      <file name="lists.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\veille-techno-backend\src\kanban\services\lists.service.ts">
+      <file name="lists.service.ts" path="C:\Users\tslem\Desktop\Laplateforme\Mastère\année1\file-rouge-kanban\veille-techno-backend\src\kanban\services\lists.service.ts">
         <metrics statements="20" coveredstatements="20" conditionals="12" coveredconditionals="11" methods="6" coveredmethods="6"/>
         <line num="1" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>

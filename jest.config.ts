@@ -22,11 +22,21 @@ const config: Config = {
   },
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' }),
   collectCoverageFrom: [
-    'src/**/*.(t|j)s',
-    'libs/**/*.(t|j)s',
-    'apps/**/*.(t|j)s',
+    'src/identity/**/*.ts',
+    'src/kanban/**/*.ts',
+    '!**/*.spec.ts',
+    '!**/*.d.ts',
   ],
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+    },
+  },
   coverageDirectory: './coverage',
+  coverageReporters: ['text', 'lcov', 'json-summary'],
   testEnvironment: 'node',
 };
 

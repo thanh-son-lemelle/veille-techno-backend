@@ -253,10 +253,16 @@ mention **Non implémentée**.
 | `npm run test:integration` | `test/integration/**/*.integration-spec.ts`, connexion et dépôts réels | Oui |
 | `npm run test:e2e` | `test/*.e2e-spec.ts`, parcours HTTP avec la base réelle | Oui |
 
-`npm run test:cov` mesure la couverture des tests sans PostgreSQL et génère les
-rapports dans `coverage`. Les tests HTTP des cartes utilisent des dépôts TypeORM
-simulés ; leurs contraintes SQL sont vérifiées séparément par les tests
-d'intégration.
+`npm run test:cov -- --ci --runInBand` exécute les tests unitaires et HTTP sans
+PostgreSQL et vérifie la couverture de `src/identity/**/*.ts` et
+`src/kanban/**/*.ts`, hors fichiers de tests et déclarations TypeScript.
+Le seuil global est de **80 % pour chacune des quatre mesures** : instructions,
+branches, fonctions et lignes. Les fichiers non exécutés sont aussi comptabilisés.
+Un test en échec ou une mesure sous le seuil fait échouer la commande.
+Les rapports sont générés dans `coverage` : `lcov-report/index.html` pour la
+lecture dans un navigateur, `lcov.info` et `coverage-summary.json` pour les outils.
+Les tests HTTP des cartes utilisent des dépôts TypeORM simulés ; leurs contraintes
+SQL sont vérifiées séparément par les tests d'intégration.
 
 `npm run test:cov:identity` sélectionne les tests unitaires de `src/identity`
 et les tests HTTP de `test/http/identity`, sans PostgreSQL. La couverture porte
@@ -275,19 +281,25 @@ l'onglet **Actions** une fois le workflow présent sur la branche principale.
 Sur Ubuntu avec Node.js 24, il exécute dans cet ordre :
 
 1. `npm ci` pour installer les versions du `package-lock.json`.
-2. `npm run format:check`,`npm run lint` puis `npm run build`.
-3. `npm test -- --ci --runInBand` pour les tests unitaires et HTTP.
+2. `npm run format`, `npm run format:check`, `npm run lint` puis `npm run build`.
+3. `npm run test:cov -- --ci --runInBand` pour les tests unitaires et HTTP et le
+   contrôle de couverture à 80 %.
 4. `npm run test:integration -- --ci --runInBand`.
 5. `npm run test:e2e -- --ci --runInBand`.
+6. Conservation des rapports de couverture, même si une étape échoue.
 
 Les tests avec base de données utilisent un service PostgreSQL 17 temporaire,
 créé pour chaque job. Les scripts `pretest:integration` et `pretest:e2e`
 appliquent les migrations automatiquement. Les suites s'exécutent successivement
 pour éviter les interférences entre leurs données de test.
 
-Aucun fichier `.env` ni secret GitHub n'est nécessaire : le workflow définit
-des identifiants et un `JWT_SECRET` réservés à cette base de test éphémère.
-Une nouvelle exécution annule la précédente pour la même branche ou pull request.
+La CI fonctionne sans `.env` : elle configure une base temporaire et utilise `JWT_SECRET_CI`, un secret réservé aux tests d’au moins 32 caractères. Chaque nouvelle exécution annule la précédente pour la même branche ou pull request.
+
+Les rapports sont accessibles sur GitHub dans **Actions => CI backend => une exécution => Artifacts => backend-coverage**, pendant **14 jours**. Après extraction, ouvrir `lcov-report/index.html` ; `lcov.info` et `coverage-summary.json` sont également inclus. S’ils n’ont pas été générés, un avertissement est affiché.
+
+Le contrôle de couverture peut être vérifié sans modifier les sources ni les seuils :
+- **Cas rouge** : une seule suite exécutée, couverture globale insuffisante, code de sortie attendu `1` ; rapports dans `coverage/ci-red`.
+- **Cas vert** : toutes les suites unitaires/HTTP passent et les quatre mesures atteignent **80 %**, code `0` ; les migrations et les tests d’intégration et e2e peuvent ensuite s’exécuter.
 
 Après avoir poussé le workflow, consulter **Actions → CI backend** pour voir
 le résultat et les logs de chaque étape. Pour rendre la CI obligatoire avant
